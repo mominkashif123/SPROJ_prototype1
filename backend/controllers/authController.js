@@ -32,7 +32,7 @@ const signup = async (req, res) => {
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: "User already exists" });
 
-    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/; //regex for checks
     if (!passwordRegex.test(password)) {
       return res.status(400).json({ message: "Password must contain at least one uppercase letter, one special character, and be at least 8 characters long." });
     }
@@ -61,7 +61,7 @@ const signup = async (req, res) => {
   }
 };
 
-const verifyOtp = async (req, res) => {
+const verifyOtp = async (req, res) => { //for signing up and verification
   try {
     const { email, otp } = req.body;
 
@@ -127,7 +127,7 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-const verifyOtpForReset = async (req, res) => {
+const verifyOtpForReset = async (req, res) => { //verification when forgetting password
   try {
     const { email, otp } = req.body;
 
@@ -149,13 +149,10 @@ const resetPassword = async (req, res) => {
     const { email, newPassword } = req.body;
     // console.log("Received reset password request:", req.body);
 
-    // Validate that both fields exist
     if (!email || !newPassword) {
       // console.log("Missing fields:", { email, newPassword });
       return res.status(400).json({ message: "Email and new password are required" });
     }
-
-    // Validate new password with regex
     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
     if (!passwordRegex.test(newPassword)) {
       // console.log("Password does not meet requirements");
@@ -164,15 +161,12 @@ const resetPassword = async (req, res) => {
       });
     }
 
-    // Find user and update password
     const user = await User.findOne({ email });
     // console.log("User found:", user);
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Update password and clear OTP fields
     user.password = hashedPassword;
     user.otp = undefined;
     user.otpExpires = undefined;
