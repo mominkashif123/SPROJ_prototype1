@@ -21,7 +21,7 @@ const PastPapersDisplay = () => {
     const fetchPastPapers = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:5000/api/past-papers/past-papers`, {
+        const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
           params: {
             level: level,
             subject: subject,
@@ -51,7 +51,7 @@ const PastPapersDisplay = () => {
 
   const handleDownload = async (id, name) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/past-papers/download/${id}`, {
+      const response = await axios.get(`http://localhost:4000/api/past-papers/download/${id}`, {
         responseType: 'blob',
       });
 
