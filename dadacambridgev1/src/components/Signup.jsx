@@ -32,8 +32,14 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:4000/api/signup', formData); 
       setMessage(response.data.message);
-      setOtpSent(true); 
+
+      if (response.status === 201) {
+        setOtpSent(true);
+      }
     } catch (error) {
+      if (error.response?.data?.message === "User already exists") {
+        setOtpSent(false);
+      }
       setMessage(error.response?.data?.message || 'Error signing up');
     }
   };
