@@ -8,7 +8,7 @@ const Navbar = ({ user, setUser }) => {
   const handleLogout = () => {
     sessionStorage.removeItem('token');
     setUser(null);
-    navigate('/');
+    navigate('/login');
   };
 
   return (

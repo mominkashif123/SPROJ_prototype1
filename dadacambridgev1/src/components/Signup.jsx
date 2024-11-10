@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 // import Navbar from '../components/Navbar.jsx';
+import { useNavigate } from 'react-router-dom';
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,8 @@ const Signup = () => {
   const [otp, setOtp] = useState('');
   const [message, setMessage] = useState('');
   const [otpSent, setOtpSent] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -39,6 +43,7 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:4000/api/verify-otp', { email: formData.email, otp });
       setMessage(response.data.message);
+      navigate('/login')
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error verifying OTP');
     }
