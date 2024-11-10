@@ -5,7 +5,7 @@ const app = require('./app');
 const PORT = 5000;
 const MONGO_URI = 'mongodb+srv://mominkashif81:m6HB0AIaJC63lKtg@sproj.wxpmc.mongodb.net/?retryWrites=true&w=majority&appName=Sproj';
 
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(MONGO_URI)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(PORT, () => {

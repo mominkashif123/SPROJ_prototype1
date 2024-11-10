@@ -10,8 +10,8 @@ const JWT_SECRET = '5d41402abc4b2a76b9719d911017c5925d41402abc4b2a76b9719d911017
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'momin.kashif81@gmail.com',
-    pass: 'wtolnaukbsxlasnn',
+    user: 'dadacambridge01@gmail.com',
+    pass: 'vduyyjrudluskfbd',
   },
 });
 
@@ -41,6 +41,7 @@ const signup = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      role: 'user',
       otp,
       otpExpires,
       isVerified: false,
@@ -69,7 +70,6 @@ const verifyOtp = async (req, res) => {
       return res.status(400).json({ message: "Invalid or expired OTP" });
     }
 
-    // Mark user as verified and clear OTP fields
     user.isVerified = true;
     user.otp = undefined;
     user.otpExpires = undefined;
@@ -81,7 +81,6 @@ const verifyOtp = async (req, res) => {
   }
 };
 
-// Login function
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -89,18 +88,14 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "User not found" });
 
-    // Check if user is verified
     if (!user.isVerified) return res.status(400).json({ message: "Please verify your email first" });
 
-    // Check if password matches
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Generate JWT with user ID and username
-    const token = jwt.sign({ id: user._id, username: user.username }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, username: user.username, role: user.role }, JWT_SECRET, { expiresIn: '1h' });
 
-    // Send back token and username
-    res.status(200).json({ token, username: user.username, message: "Login successful" });
+    res.status(200).json({ token, username: user.username, role: user.role, message: "Login successful" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

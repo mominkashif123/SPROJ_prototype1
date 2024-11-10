@@ -5,9 +5,12 @@ const UploadForm = () => {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [year, setYear] = useState('');
-  const [paper, setPaper] = useState(''); // New state for paper variant
+  const [what, setWhat] = useState('');
+  const [paper, setPaper] = useState('');
+  const [level, setLevel] = useState('');
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); // Track loading state
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -25,16 +28,25 @@ const UploadForm = () => {
     formData.append('name', name);
     formData.append('code', code);
     formData.append('year', year);
-    formData.append('paper', paper); // Add paper to formData
+    formData.append('what', what);
+    formData.append('paper', paper);
+    formData.append('level', level);
     formData.append('pdf', file);
 
     try {
+      setLoading(true); // Start loading
       const response = await axios.post('http://localhost:5000/api/past-papers/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (progressEvent) => {
+          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setLoading(progress); // Update loading bar
+        },
       });
       setMessage(response.data.message);
     } catch (error) {
       setMessage('Failed to upload file. Please try again.');
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -76,6 +88,17 @@ const UploadForm = () => {
           />
         </div>
         <div>
+          <label className="block font-medium mb-1">QP/MS</label>
+          <input
+            type="text"
+            value={what}
+            onChange={(e) => setWhat(e.target.value)}
+            className="w-full border border-gray-300 p-2 rounded"
+            placeholder="Enter what this paper is for (e.g., May/June 2022)"
+            required
+          />
+        </div>
+        <div>
           <label className="block font-medium mb-1">Paper Variant</label>
           <input
             type="text"
@@ -87,12 +110,35 @@ const UploadForm = () => {
           />
         </div>
         <div>
-          <label className="block font-medium mb-1">PDF File</label>
+          <label className="block font-medium mb-1">Level</label>
+          <select
+            value={level}
+            onChange={(e) => setLevel(e.target.value)}
+            className="w-full border border-gray-300 p-2 rounded"
+            required
+          >
+            <option value="">Select level</option>
+            <option value="O Level">O Level</option>
+            <option value="A Level">A Level</option>
+          </select>
+        </div>
+        <div>
+          <label className="block font-medium mb-1">File URL</label>
           <input type="file" onChange={handleFileChange} accept="application/pdf" required />
         </div>
         <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Upload</button>
       </form>
-      {message && <p className="mt-4">{message}</p>}
+
+      {loading ? (
+        <div className="mt-4 w-full bg-gray-300 rounded-full h-4">
+          <div
+            className="bg-blue-500 h-4 rounded-full"
+            style={{ width: `${loading}%` }}
+          ></div>
+        </div>
+      ) : (
+        <p className="mt-4">{message}</p>
+      )}
     </div>
   );
 };

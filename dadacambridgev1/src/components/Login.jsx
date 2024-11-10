@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode';
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -11,7 +11,7 @@ const Login = ({ setUser }) => {
 
   const handleChange = (e) => {
     setFormData({
-      ...formData, 
+      ...formData,
       [e.target.name]: e.target.value,
     });
   };
@@ -22,15 +22,19 @@ const Login = ({ setUser }) => {
       const response = await axios.post('http://localhost:5000/api/login', formData); // Adjust with your backend URL
       const { token, message } = response.data;
 
-      // Save the token to localStorage
+      // Save the token to sessionStorage
       sessionStorage.setItem('token', token);
 
       // Decode the token to get user details
-      const decodedToken = jwtDecode(token); // Updated function name
-      const username = decodedToken.username; // Extract username from decoded token
+      const decodedToken = jwtDecode(token);
+      const { username, role } = decodedToken; // Extract username and role from decoded token
+
+      // Save role in sessionStorage
+      sessionStorage.setItem('role', role);
+      console.log(role);
 
       // Update global state with user details
-      setUser({ username });
+      setUser({ username, role });
 
       setMessage(message);
       navigate('/welcome'); // Redirect to welcome page
