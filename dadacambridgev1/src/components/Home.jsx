@@ -38,7 +38,7 @@ function Home() {
             <img
               alt="Forbes"
               loading="lazy"
-              className="h-16 w-32 object-contain" // Set equal height and width for consistency
+              className="h-16 w-32 object-contain" 
               src="/cam.jpeg"
             />
           </li>
@@ -46,7 +46,7 @@ function Home() {
             <img
               alt="TechCrunch"
               loading="lazy"
-              className="h-16 w-32 object-contain" // Set equal height and width for consistency
+              className="h-16 w-32 object-contain" 
               src="/igcse.jpeg"
             />
           </li>
