@@ -14,7 +14,7 @@ import SubjectsList from './components/SubjectsList.jsx';
 function App() {
   const [user, setUser] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true); // Loading state
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const token = sessionStorage.getItem('token');
@@ -22,13 +22,13 @@ function App() {
       try {
         const decodedToken = jwtDecode(token);
         setUser({ username: decodedToken.username });
-        setIsAdmin(decodedToken.role === 'admin'); // Check if user has admin role
+        setIsAdmin(decodedToken.role === 'admin'); 
       } catch (error) {
         console.error("Invalid token:", error);
         sessionStorage.removeItem('token'); 
       }
     }
-    setLoading(false); // Set loading to false once user data is ready
+    setLoading(false); 
   }, []);
 
   if (loading) return <div>Loading...</div>; // Show loading until data is ready
