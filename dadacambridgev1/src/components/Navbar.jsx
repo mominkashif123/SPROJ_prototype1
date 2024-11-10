@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 const Navbar = ({ user, setUser }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     sessionStorage.removeItem('token');
     setUser(null);
     navigate('/login');
+    setIsMenuOpen(false);
   };
 
   return (
@@ -27,7 +29,9 @@ const Navbar = ({ user, setUser }) => {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${isActive ? 'text-gray-900' : 'text-gray-700'}
+                `relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${
+                  isActive ? 'text-gray-900' : 'text-gray-700'
+                }`
               }
             >
               Home
@@ -35,7 +39,9 @@ const Navbar = ({ user, setUser }) => {
             <NavLink
               to="/past-papers"
               className={({ isActive }) =>
-                relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${isActive ? 'text-gray-900' : 'text-gray-700'}
+                `relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${
+                  isActive ? 'text-gray-900' : 'text-gray-700'
+                }`
               }
             >
               Past Papers
@@ -44,7 +50,7 @@ const Navbar = ({ user, setUser }) => {
         </div>
 
         {/* Right Side (User Info & Auth Links) */}
-        <div className="flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           {user && user.username ? (
             <>
               <span className="text-gray-700">Logged in as {user.username}</span>
@@ -63,12 +69,12 @@ const Navbar = ({ user, setUser }) => {
               >
                 Log in
               </NavLink>
-              <a
-                href="#"
+              <NavLink
+                to="/signup"
                 className="inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors bg-gray-800 text-white hover:bg-gray-900"
               >
-                Download
-              </a>
+                Sign Up
+              </NavLink>
             </>
           )}
         </div>
@@ -76,6 +82,7 @@ const Navbar = ({ user, setUser }) => {
         {/* Mobile Menu Button */}
         <div className="lg:hidden">
           <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="relative z-10 -m-2 inline-flex items-center rounded-lg p-2 hover:bg-gray-200/50"
             aria-label="Toggle site navigation"
           >
@@ -84,6 +91,53 @@ const Navbar = ({ user, setUser }) => {
             </svg>
           </button>
         </div>
+        
+        {/* Mobile Menu Dropdown */}
+        {isMenuOpen && (
+          <div className="lg:hidden absolute top-20 right-4 bg-white shadow-lg rounded-lg p-4 w-48 z-20">
+            <NavLink
+              to="/"
+              onClick={() => setIsMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/past-papers"
+              onClick={() => setIsMenuOpen(false)}
+              className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
+            >
+              Past Papers
+            </NavLink>
+            {user && user.username ? (
+              <>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
+                >
+                  Log in
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
+                >
+                  Sign Up
+                </NavLink>
+              </>
+            )}
+          </div>
+        )}
       </nav>
     </header>
   );
