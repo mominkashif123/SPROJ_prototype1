@@ -39,14 +39,14 @@ const SubjectsList = () => {
       {loading ? (
         <Player src={loadingAnimation} className="w-40 h-40" loop autoplay />
       ) : subjects.length > 0 ? (
-        <div className="grid gap-4">
+        <div className="grid gap-6 grid-cols-3">
           {subjects.map((subject, index) => (
             <div
               key={index}
               onClick={() => handleSubjectClick(subject)}
-              className="border border-gray-300 p-4 w-64 flex justify-center items-center shadow-lg rounded-lg bg-white hover:bg-gray-100 cursor-pointer"
+              className="border border-gray-300 p-8 w-80 h-40 flex justify-center items-center shadow-lg rounded-lg bg-white hover:bg-gray-100 cursor-pointer"
             >
-              <h2 className="text-xl font-semibold">{subject}</h2>
+              <h2 className="text-2xl font-semibold">{subject}</h2>
             </div>
           ))}
         </div>
