@@ -27,7 +27,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/signup', formData); 
+      // const response = await axios.post('http://localhost:4000/api/signup', formData); 
+      const response = await axios.post('https://sproj-prototype1.onrender.com/api/signup', formData);
       setMessage(response.data.message);
       if (response.status === 201) setOtpSent(true);
     } catch (error) {
@@ -39,7 +40,8 @@ const Signup = () => {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/verify-otp', { email: formData.email, otp });
+      // const response = await axios.post('http://localhost:4000/api/verify-otp', { email: formData.email, otp });
+      const response = await axios.post('https://sproj-prototype1.onrender.com/api/verify-otp', { email: formData.email, otp });
       setMessage(response.data.message);
       
       setTimeout(() => {

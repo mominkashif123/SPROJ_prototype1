@@ -23,7 +23,8 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/login', formData);
+      // const response = await axios.post('http://localhost:4000/api/login', formData);
+      const response = await axios.post('https://sproj-prototype1.onrender.com/api/login', formData);
       const { token, message } = response.data;
 
       sessionStorage.setItem('token', token);
@@ -47,7 +48,8 @@ const Login = ({ setUser }) => {
 
   const handleSendOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/forgot-password', { email: formData.email });
+      // const response = await axios.post('http://localhost:4000/api/forgot-password', { email: formData.email });
+      const response = await axios.post('https://sproj-prototype1.onrender.com/api/forgot-password', { email: formData.email });
       setMessage(response.data.message);
       setOtpSent(true);
     } catch (error) {
@@ -57,7 +59,8 @@ const Login = ({ setUser }) => {
 
   const handleVerifyOtp = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/verify-otp-for-reset', { email: formData.email, otp });
+      // const response = await axios.post('http://localhost:4000/api/verify-otp-for-reset', { email: formData.email, otp });
+      const response = await axios.post('https://sproj-prototype1.onrender.com/api/verify-otp-for-reset', { email: formData.email, otp });
       setMessage(response.data.message);
       setOtpVerified(true);
     } catch (error) {
@@ -67,7 +70,8 @@ const Login = ({ setUser }) => {
 
   const handleResetPassword = async () => {
     try {
-      const response = await axios.post('http://localhost:4000/api/reset-password', { email: formData.email, newPassword });
+      // const response = await axios.post('http://localhost:4000/api/reset-password', { email: formData.email, newPassword });
+      const response = await axios.post('https://sproj-prototype1.onrender.com/api/reset-password', { email: formData.email, newPassword });
       setMessage(response.data.message);
       setOtpSent(false);
       setOtpVerified(false);

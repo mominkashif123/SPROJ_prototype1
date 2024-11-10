@@ -17,7 +17,8 @@ const SubjectsList = () => {
     const fetchSubjects = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:4000/api/past-papers/subjects/${level}`);
+        // const response = await axios.get(`http://localhost:4000/api/past-papers/subjects/${level}`);
+        const response = await axios.get(`https://sproj-prototype1.onrender.com/api/past-papers/subjects/${level}`);
         setSubjects(response.data);
       } catch (error) {
         console.error("Failed to fetch subjects", error);
