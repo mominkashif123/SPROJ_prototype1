@@ -41,7 +41,10 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:4000/api/verify-otp', { email: formData.email, otp });
       setMessage(response.data.message);
-      navigate('/login');
+      
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000);
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error verifying OTP');
     }
