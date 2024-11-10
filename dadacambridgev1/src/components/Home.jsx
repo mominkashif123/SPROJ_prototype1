@@ -23,46 +23,39 @@ function Home() {
               </svg>
             </div>
             <div className="relative aspect-[366/729] mx-auto max-w-[366px]">
-              {/* Mockup Phone */}
-              <div className="mockup-phone">
-                <div className="camera"></div>
-                <div className="display">
-                  <div className="artboard artboard-demo phone-1 flex items-center justify-center text-lg font-medium text-white-800">
-                    Welcome to dadacambridge!
-                  </div>
-                </div>
-              </div>
+              <div className="absolute left-[calc(23/366*100%)] top-[calc(23/729*100%)] grid h-[calc(686/729*100%)] w-[calc(318/366*100%)] bg-gray-900 rounded-2xl"></div>
             </div>
           </div>
         </div>
 
         {/* Featured Section */}
         <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-          <ul
-            role="list"
-            className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
-          >
-            <li className="flex">
-              <img
-                alt="Forbes"
-                loading="lazy"
-                className="h-16 w-32 object-contain"
-                src="/cam.jpeg"
-              />
-            </li>
-            <li className="flex">
-              <img
-                alt="TechCrunch"
-                loading="lazy"
-                className="h-16 w-32 object-contain"
-                src="/igcse.jpeg"
-              />
-            </li>
-          </ul>
-        </div>
+        <ul
+          role="list"
+          className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
+        >
+          <li className="flex">
+            <img
+              alt="Forbes"
+              loading="lazy"
+              className="h-16 w-32 object-contain" // Set equal height and width for consistency
+              src="/cam.jpeg"
+            />
+          </li>
+          <li className="flex">
+            <img
+              alt="TechCrunch"
+              loading="lazy"
+              className="h-16 w-32 object-contain" // Set equal height and width for consistency
+              src="/igcse.jpeg"
+            />
+          </li>
+        </ul>
+      </div>
+
       </div>
     </div>
   );
 }
 
-export default Home;
+export default Home;

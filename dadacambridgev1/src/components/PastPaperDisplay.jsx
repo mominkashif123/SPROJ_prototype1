@@ -72,13 +72,21 @@ const PastPapersDisplay = () => {
       ) : (
         <>
           <div className="flex space-x-4 mb-6">
-            <select value={year} onChange={(e) => setYear(e.target.value)} className="p-2 border rounded">
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="p-3 text-lg border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            >
               <option value="">All Years</option>
               {uniqueYears.map((y, index) => (
                 <option key={index} value={y}>{y}</option>
               ))}
             </select>
-            <select value={paperVariant} onChange={(e) => setPaperVariant(e.target.value)} className="p-2 border rounded">
+            <select
+              value={paperVariant}
+              onChange={(e) => setPaperVariant(e.target.value)}
+              className="p-3 text-lg border border-gray-300 rounded-md bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            >
               <option value="">All Paper Variants</option>
               {uniqueVariants.map((variant, index) => (
                 <option key={index} value={variant}>{variant}</option>
@@ -86,15 +94,15 @@ const PastPapersDisplay = () => {
             </select>
           </div>
           {filteredPapers.length > 0 ? (
-            <div className="grid gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {filteredPapers.map((paper, index) => (
-                <div key={index} className="border p-4 w-64 flex flex-col justify-center items-center shadow-lg rounded-lg bg-white">
-                  <h2 className="text-xl font-semibold">{paper.name}</h2>
+                <div key={index} className="border p-6 w-full flex flex-col items-center shadow-lg rounded-lg bg-white">
+                  <h2 className="text-xl font-semibold mb-2">{paper.name}</h2>
                   <p className="text-gray-600">Code: {paper.code}</p>
                   <p className="text-gray-600">Year: {paper.year}</p>
                   <p className="text-gray-600">Paper Type: {paper.what}</p>
                   <p className="text-gray-600">Paper Variant: {paper.paper}</p>
-                  <button onClick={() => handleDownload(paper._id, paper.name)} className="text-blue-500 hover:underline mt-2">
+                  <button onClick={() => handleDownload(paper._id, paper.name)} className="text-blue-500 hover:underline mt-4">
                     Download PDF
                   </button>
                 </div>
