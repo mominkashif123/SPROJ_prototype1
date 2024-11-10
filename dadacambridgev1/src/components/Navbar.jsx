@@ -27,7 +27,7 @@ const Navbar = ({ user, setUser }) => {
             <NavLink
               to="/"
               className={({ isActive }) =>
-                `relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${isActive ? 'text-gray-900' : 'text-gray-700'}`
+                relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${isActive ? 'text-gray-900' : 'text-gray-700'}
               }
             >
               Home
@@ -35,7 +35,7 @@ const Navbar = ({ user, setUser }) => {
             <NavLink
               to="/past-papers"
               className={({ isActive }) =>
-                `relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${isActive ? 'text-gray-900' : 'text-gray-700'}`
+                relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${isActive ? 'text-gray-900' : 'text-gray-700'}
               }
             >
               Past Papers

@@ -5,7 +5,7 @@ const PastPapersSelection = () => {
   const navigate = useNavigate();
 
   const handleLevelSelect = (level) => {
-    navigate(`/past-papers/subjects?level=${encodeURIComponent(level)}`);
+    navigate(/past-papers/subjects?level=${encodeURIComponent(level)});
   };
 
   return (

@@ -1,8 +1,7 @@
-// frontend/components/Login.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -19,41 +18,35 @@ const Login = ({ setUser }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/login', formData); // Adjust with your backend URL
+      const response = await axios.post('http://localhost:4000/api/login', formData);
       const { token, message } = response.data;
 
-      // Save the token to sessionStorage
       sessionStorage.setItem('token', token);
 
-      // Decode the token to get user details
       const decodedToken = jwtDecode(token);
-      const { username, role } = decodedToken; // Extract username and role from decoded token
+      const { username, role } = decodedToken;
 
-      // Save role in sessionStorage
       sessionStorage.setItem('role', role);
-      console.log(role);
-
-      // Update global state with user details
       setUser({ username, role });
 
       setMessage(message);
-      navigate('/welcome'); // Redirect to welcome page
+      navigate('/welcome');
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error logging in');
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen px-4">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-sm">
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          className="border p-2 w-full"
+          className="border p-2 w-full rounded"
           required
         />
         <input
@@ -62,7 +55,7 @@ const Login = ({ setUser }) => {
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
-          className="border p-2 w-full"
+          className="border p-2 w-full rounded"
           required
         />
         <button type="submit" className="bg-blue-500 text-white p-2 w-full rounded">Login</button>

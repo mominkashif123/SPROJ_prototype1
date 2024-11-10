@@ -17,7 +17,7 @@ const SubjectsList = () => {
     const fetchSubjects = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:4000/api/past-papers/subjects/${level}`);
+        const response = await axios.get(http://localhost:4000/api/past-papers/subjects/${level});
         setSubjects(response.data);
       } catch (error) {
         console.error("Failed to fetch subjects", error);
@@ -30,7 +30,7 @@ const SubjectsList = () => {
   }, [level]);
 
   const handleSubjectClick = (subject) => {
-    navigate(`/past-papers/display?level=${encodeURIComponent(level)}&subject=${encodeURIComponent(subject)}`);
+    navigate(/past-papers/display?level=${encodeURIComponent(level)}&subject=${encodeURIComponent(subject)});
   };
 
   return (

@@ -9,7 +9,6 @@ const PastPapersDisplay = () => {
   const [filteredPapers, setFilteredPapers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [year, setYear] = useState('');
-  const [what, setWhat] = useState('');
   const [paperVariant, setPaperVariant] = useState('');
   const location = useLocation();
 
@@ -22,30 +21,24 @@ const PastPapersDisplay = () => {
       setLoading(true);
       try {
         const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
-          params: {
-            level: level,
-            subject: subject,
-          },
+          params: { level, subject },
         });
         setPastPapers(response.data);
-        setFilteredPapers(response.data); 
+        setFilteredPapers(response.data);
       } catch (error) {
         console.error('Failed to fetch past papers', error);
       } finally {
         setLoading(false);
       }
     };
-
     fetchPastPapers();
   }, [level, subject]);
 
   useEffect(() => {
-    const filtered = pastPapers.filter((paper) => {
-      return (
-        (year ? paper.year === year : true) &&
-        (paperVariant ? paper.paper === paperVariant : true)
-      );
-    });
+    const filtered = pastPapers.filter((paper) => (
+      (year ? paper.year === year : true) &&
+      (paperVariant ? paper.paper === paperVariant : true)
+    ));
     setFilteredPapers(filtered);
   }, [year, paperVariant, pastPapers]);
 
@@ -54,7 +47,6 @@ const PastPapersDisplay = () => {
       const response = await axios.get(`http://localhost:4000/api/past-papers/download/${id}`, {
         responseType: 'blob',
       });
-
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -80,36 +72,23 @@ const PastPapersDisplay = () => {
       ) : (
         <>
           <div className="flex space-x-4 mb-6">
-            <select
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
-            >
+            <select value={year} onChange={(e) => setYear(e.target.value)} className="p-2 border rounded">
               <option value="">All Years</option>
               {uniqueYears.map((y, index) => (
-                <option key={index} value={y}>
-                  {y}
-                </option>
+                <option key={index} value={y}>{y}</option>
               ))}
             </select>
-            <select
-              value={paperVariant}
-              onChange={(e) => setPaperVariant(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
-            >
+            <select value={paperVariant} onChange={(e) => setPaperVariant(e.target.value)} className="p-2 border rounded">
               <option value="">All Paper Variants</option>
               {uniqueVariants.map((variant, index) => (
-                <option key={index} value={variant}>
-                  {variant}
-                </option>
+                <option key={index} value={variant}>{variant}</option>
               ))}
             </select>
           </div>
-
           {filteredPapers.length > 0 ? (
             <div className="grid gap-4">
               {filteredPapers.map((paper, index) => (
-                <div key={index} className="border border-gray-300 p-4 w-64 flex flex-col justify-center items-center shadow-lg rounded-lg bg-white">
+                <div key={index} className="border p-4 w-64 flex flex-col justify-center items-center shadow-lg rounded-lg bg-white">
                   <h2 className="text-xl font-semibold">{paper.name}</h2>
                   <p className="text-gray-600">Code: {paper.code}</p>
                   <p className="text-gray-600">Year: {paper.year}</p>
