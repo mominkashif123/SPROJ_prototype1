@@ -3,14 +3,15 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
+require('dotenv').config();
 
-const JWT_SECRET = '5d41402abc4b2a76b9719d911017c5925d41402abc4b2a76b9719d911017c5925d41402abc4b2a76b9719d911017c5925d41402abc4b2a76b9719d911017c592';
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
-    user: 'dadacambridge01@gmail.com',
-    pass: 'vduyyjrudluskfbd',
+    user: process.env.TRANSPORTER_MAIL,
+    pass: process.env.TRANSPORTER_PASSWORD,
   },
 });
 
@@ -104,7 +105,6 @@ const login = async (req, res) => {
   }
 };
 
-// Forgot Password
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
