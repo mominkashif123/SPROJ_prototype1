@@ -4,6 +4,7 @@ const pastPaperSchema = new mongoose.Schema({
   name: { type: String, required: true },          // Subject name
   code: { type: String, required: true },          // Subject code
   year: { type: String, required: true },          // Year of the paper
+  session: {type: String, required: true},         // Session of the paper
   what: { type: String, required: true },          // What is this paper for
   paper: { type: String, required: true },         // Paper variant (e.g., "Paper 1", "Paper 2")
   level: {type: String, required: true},

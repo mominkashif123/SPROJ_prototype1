@@ -8,11 +8,12 @@ const upload = multer({ storage });
 
 router.post('/upload', upload.single('pdf'), async (req, res) => {
   try {
-    const { name, code, year, what, paper, level } = req.body;
+    const { name, code, year, session, what, paper, level } = req.body;
     const newPastPaper = new PastPaper({
       name,
       code,
       year,
+      session,
       what,
       paper,
       level,

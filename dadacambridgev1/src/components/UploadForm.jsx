@@ -5,12 +5,13 @@ const UploadForm = () => {
   const [name, setName] = useState('');
   const [code, setCode] = useState('');
   const [year, setYear] = useState('');
+  const [session, setSession] = useState('');
   const [what, setWhat] = useState('');
   const [paper, setPaper] = useState('');
   const [level, setLevel] = useState('');
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false); // Track loading state
+  const [loading, setLoading] = useState(false); 
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -28,6 +29,7 @@ const UploadForm = () => {
     formData.append('name', name);
     formData.append('code', code);
     formData.append('year', year);
+    formData.append('session', session);
     formData.append('what', what);
     formData.append('paper', paper);
     formData.append('level', level);
@@ -84,6 +86,17 @@ const UploadForm = () => {
             onChange={(e) => setYear(e.target.value)}
             className="w-full border border-gray-300 p-2 rounded"
             placeholder="Enter year (e.g., 2022)"
+            required
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-1">Session</label>
+          <input
+            type="text"
+            value={session}
+            onChange={(e) => setSession(e.target.value)}
+            className="w-full border border-gray-300 p-2 rounded"
+            placeholder="Enter session (e.g., May/June)"
             required
           />
         </div>
