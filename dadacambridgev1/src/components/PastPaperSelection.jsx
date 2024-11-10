@@ -9,20 +9,25 @@ const PastPapersSelection = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen space-y-8">
-      <h1 className="text-2xl font-bold mb-4">Select Level for Past Papers</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
+      <h1 className="text-3xl font-bold text-gray-800 mb-12">
+        Select Level for Past Papers
+      </h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+        {/* O Level Card */}
         <div
           onClick={() => handleLevelSelect("O Level")}
-          className="border border-gray-300 p-8 w-64 h-32 flex items-center justify-center shadow-lg rounded-lg bg-white hover:bg-gray-100 cursor-pointer"
+          className="border border-gray-200 p-8 w-64 h-40 flex items-center justify-center shadow-lg rounded-lg bg-white hover:bg-blue-100 cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-out"
         >
-          <h2 className="text-xl font-semibold">O Level</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">O Level</h2>
         </div>
+
+        {/* A Level Card */}
         <div
           onClick={() => handleLevelSelect("A Level")}
-          className="border border-gray-300 p-8 w-64 h-32 flex items-center justify-center shadow-lg rounded-lg bg-white hover:bg-gray-100 cursor-pointer"
+          className="border border-gray-200 p-8 w-64 h-40 flex items-center justify-center shadow-lg rounded-lg bg-white hover:bg-blue-100 cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-out"
         >
-          <h2 className="text-xl font-semibold">A Level</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">A Level</h2>
         </div>
       </div>
     </div>
