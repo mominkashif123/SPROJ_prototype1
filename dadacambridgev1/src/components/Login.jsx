@@ -8,6 +8,12 @@ const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -86,10 +92,10 @@ const Login = ({ setUser }) => {
           onClick={() => navigate('/')}
         >
           <a aria-label="Home" href="/" className="flex items-center gap-4">
-            <img 
-              src={logo} 
-              alt="DadaCambridge Logo" 
-              className="w-10 h-auto" 
+            <img
+              src={logo}
+              alt="DadaCambridge Logo"
+              className="w-10 h-auto"
             />
             <span className="text-lg font-medium font-montserrat text-gray-900 uppercase">
               DADACAMBRIDGE
