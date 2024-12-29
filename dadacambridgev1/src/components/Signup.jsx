@@ -30,6 +30,8 @@ const Signup = () => {
     try {
       const response = await axios.post('http://localhost:4000/api/signup', formData);
       // const response = await axios.post('https://sproj-prototype1.onrender.com/api/signup', formData);
+      console.log("Response:", response);
+      // console.log("Here in signup on frontend");
       setMessage(response.data.message);
       if (response.status === 201) setOtpSent(true);
     } catch (error) {

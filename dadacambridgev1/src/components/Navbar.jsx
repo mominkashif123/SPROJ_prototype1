@@ -1,19 +1,59 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import logo from '../assets/logo.png'; // Adjust the path
 
 const Navbar = ({ user, setUser }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem("token");
     setUser(null);
     setIsMenuOpen(false);
-    navigate('/login');
+
+    setMessage("You have been logged out!");
+    setIsModalVisible(true);
+
+    setTimeout(() => {
+      setIsModalVisible(false); // Close the modal after delay
+    }, 1000);
+
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
   };
 
   return (
+    <>
+      <nav className="bg-dark text-white flex items-center p-4 shadow-lg sticky top-0 z-50">
+        <div className="mr-10 font-bold text-lg">Past Papers App</div>
+
+        {/* Navigation Links */}
+        <div className="flex space-x-6">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `hover:text-blue-400 ${isActive ? "text-blue-400" : "text-white"}`
+            }
+          >
+            Home
+          </NavLink>
+
+          {/* Past Papers Link (Without Dropdown) */}
+          <NavLink
+            to="/past-papers"
+            className="hover:text-blue-400 cursor-pointer"
+          >
+            Past Papers
+          </NavLink>
+        </div>
     <header className="bg-white shadow-md">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative flex justify-between items-center py-4">
         {/* Logo */}
