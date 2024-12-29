@@ -1,9 +1,9 @@
-// backend/server.js
 const mongoose = require('mongoose');
 const app = require('./app');
+require('dotenv').config();
 
-const PORT = 4000;
-const MONGO_URI = 'mongodb+srv://mominkashif81:m6HB0AIaJC63lKtg@sproj.wxpmc.mongodb.net/?retryWrites=true&w=majority&appName=Sproj';
+const PORT = process.env.PORT || 4000;
+const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI)
   .then(() => {
