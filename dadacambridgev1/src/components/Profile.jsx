@@ -24,8 +24,15 @@ const Profile = ({ user, setUser }) => {
   // Handle password change
   const handlePasswordChange = async () => {
     try {
+      // const response = await axios.post(
+      //   "http://localhost:4000/api/change-password",
+      //   {
+      //     username: user.username, // Use the username from the `user` object
+      //     oldPassword: currentPassword,
+      //     newPassword,
+      //   }
       const response = await axios.post(
-        "http://localhost:4000/api/change-password",
+        "https://sproj-prototype1-1.onrender.com/api/change-password",
         {
           username: user.username, // Use the username from the `user` object
           oldPassword: currentPassword,
@@ -61,11 +68,15 @@ const Profile = ({ user, setUser }) => {
   // Confirm the account deletion after 5 seconds
   const handleConfirmDelete = async () => {
     if (deleteInput.toLowerCase() === "delete") {
+      // try {
+      //   await axios.delete("http://localhost:4000/api/delete-account", {
+      //     data: { username: user.username },
+      //   });
       try {
-        await axios.delete("http://localhost:4000/api/delete-account", {
+        await axios.delete(
+          "https://sproj-prototype1-1.onrender.com/api/delete-account", {
           data: { username: user.username },
         });
-
         setDeleteMessage(
           "Account has been deleted. You will be logged out in 3 seconds."
         );

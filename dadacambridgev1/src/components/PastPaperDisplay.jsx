@@ -20,8 +20,8 @@ const PastPapersDisplay = () => {
     const fetchPastPapers = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
-          // const response = await axios.get(`https://sproj-prototype1.onrender.com/api/past-papers/past-papers`, {
+        // const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
+        const response = await axios.get(`https://sproj-prototype1-1.onrender.com/api/past-papers/past-papers`, {
           params: { level, subject },
         });
         setPastPapers(response.data);

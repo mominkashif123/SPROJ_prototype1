@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png"; // Adjust the path as needed
 
@@ -78,18 +78,7 @@ const Navbar = ({ user, setUser }) => {
           >
             Expected Exam
           </NavLink>
-          {user?.role === "admin" && (
-            <NavLink
-              to="/upload"
-              className={({ isActive }) =>
-                `text-sm font-medium ${
-                  isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
-                }`
-              }
-            >
-              Upload
-            </NavLink>
-          )}
+          
           {user ? (
             <>
               <NavLink

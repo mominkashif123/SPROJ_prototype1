@@ -28,8 +28,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/signup', formData);
-      // const response = await axios.post('https://sproj-prototype1.onrender.com/api/signup', formData);
+      // const response = await axios.post('http://localhost:4000/api/signup', formData);
+      const response = await axios.post('https://sproj-prototype1-1.onrender.com/api/signup', formData);
       console.log("Response:", response);
       // console.log("Here in signup on frontend");
       setMessage(response.data.message);
@@ -42,11 +42,10 @@ const Signup = () => {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/verify-otp', { email: formData.email, otp });
-      
+      // const response = await axios.post('http://localhost:4000/api/verify-otp', { email: formData.email, otp });
+      const response = await axios.post('https://sproj-prototype1-1.onrender.com/api/verify-otp', { email: formData.email, otp });      
       setMessage('Your OTP has been verified!');  // Display verification message
   
-      // Redirect to login page after a 2-second delay
       setTimeout(() => {
         navigate('/login');
       }, 2000);  // 2000 milliseconds = 2 seconds

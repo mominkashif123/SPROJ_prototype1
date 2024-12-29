@@ -25,8 +25,8 @@ const UploadForm = () => {
     data.append('pdf', file);
 
     try {
-      const response = await axios.post('http://localhost:4000/api/past-papers/upload', data, {
-      // const response = await axios.post('https://sproj-prototype1.onrender.com/api/past-papers/upload', data, {
+      // const response = await axios.post('http://localhost:4000/api/past-papers/upload', data, {
+      const response = await axios.post('https://sproj-prototype1-1.onrender.com/api/past-papers/upload', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
         onUploadProgress: (progressEvent) => {
           const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
