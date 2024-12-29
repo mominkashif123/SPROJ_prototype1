@@ -45,7 +45,7 @@ function App() {
   return (
     <div>
       {/* Conditionally render the Navbar */}
-      {!isAuthPage && <Navbar user={user} setUser={setUser} />}
+      {<Navbar user={user} setUser={setUser} />}
       <Routes>
         {/* Conditionally render homepage based on user login status */}
         <Route path="/" element={user ? <Home user={user} /> : <HomeGuest />} />
