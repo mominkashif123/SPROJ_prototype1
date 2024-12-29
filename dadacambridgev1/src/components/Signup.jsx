@@ -28,7 +28,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/signup', formData); 
+      const response = await axios.post('http://localhost:4000/api/signup', formData);
       // const response = await axios.post('https://sproj-prototype1.onrender.com/api/signup', formData);
       setMessage(response.data.message);
       if (response.status === 201) setOtpSent(true);
@@ -50,18 +50,18 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen">
+    <div className="flex flex-col lg:flex-row h-screen relative">
       {/* Left Section */}
-      <div className="flex-1 bg-white flex flex-col justify-center items-center px-6 lg:px-10 relative">
+      <div className="flex-1 bg-white flex flex-col justify-center items-center px-6 lg:px-10 relative z-20">
         {/* Logo */}
         <div
-          className="absolute top-4 left-4 lg:left-8 cursor-pointer"
+          className="absolute top-4 left-4 lg:left-8 cursor-pointer z-30"
           onClick={() => navigate('/')}
         >
           <a aria-label="Home" href="/" className="flex items-center gap-4">
-            <img 
-              src={logo} 
-              alt="DadaCambridge Logo" 
+            <img
+              src={logo}
+              alt="DadaCambridge Logo"
               className="w-10 lg:w-12 h-auto"
             />
             <span className="text-base lg:text-lg font-medium font-montserrat text-gray-900 uppercase">
@@ -137,8 +137,8 @@ const Signup = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-teal-400 to-blue-500 text-white p-6 lg:p-10">
-        <div className="absolute inset-0 hidden lg:flex justify-center items-center z-0">
+      <div className="flex-1 flex flex-col justify-center items-center bg-gradient-to-br from-teal-400 to-blue-500 text-white p-6 lg:p-10 relative">
+        <div className="absolute inset-0 hidden lg:flex justify-center items-center z-0 pointer-events-none">
           <div className="w-32 lg:w-48 h-32 lg:h-48 rounded-full bg-white opacity-20"></div>
           <div className="w-48 lg:w-72 h-48 lg:h-72 rounded-full bg-white opacity-10 top-20"></div>
         </div>
