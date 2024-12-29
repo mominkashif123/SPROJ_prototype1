@@ -42,6 +42,10 @@ function App() {
 
   if (loading) return <div>Loading...</div>; // Show loading until data is ready
 
+  // Check if the current route is Login or Signup
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/signup";
+
   return (
     <div>
       {/* Conditionally render the Navbar */}
