@@ -3,7 +3,12 @@ import axios from 'axios';
 
 const UploadForm = () => {
   const [formData, setFormData] = useState({
-    name: '', code: '', year: '', session: '', what: '', paper: '', level: ''
+    name: '',
+    subjectCode: '', // Updated: corresponds to the new schema
+    session: '',     // Updated: corresponds to the new schema
+    paperType: '',   // Updated: corresponds to the new schema
+    paperNumber: '',  // Updated: corresponds to the new schema
+    level: '',      // Updated: corresponds to the new schema
   });
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
@@ -44,7 +49,7 @@ const UploadForm = () => {
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Upload Past Paper</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {['name', 'code', 'year', 'session', 'what', 'paper'].map((field, index) => (
+        {['name', 'subjectCode', 'paperNumber'].map((field, index) => (
           <div key={index}>
             <label className="block font-medium mb-1 capitalize">{field}</label>
             <input
@@ -59,7 +64,35 @@ const UploadForm = () => {
           </div>
         ))}
         <div>
-          <label className="block font-medium mb-1">Level</label>
+          <label className="block font-medium mb-1 capitalize">Session</label>
+          <select
+            name="session"
+            value={formData.session}
+            onChange={handleInputChange}
+            className="w-full border border-gray-300 p-2 rounded"
+            required
+          >
+            <option value="">Select Session</option>
+            <option value="Summer">Summer</option>
+            <option value="Winter">Winter</option>
+          </select>
+        </div>
+        <div>
+          <label className="block font-medium mb-1 capitalize">Paper Type</label>
+          <select
+            name="paperType"
+            value={formData.paperType}
+            onChange={handleInputChange}
+            className="w-full border border-gray-300 p-2 rounded"
+            required
+          >
+            <option value="">Select Paper Type</option>
+            <option value="QP">QP</option>
+            <option value="MS">MS</option>
+          </select>
+        </div>
+        <div>
+          <label className="block font-medium mb-1 capitalize">Level</label>
           <select
             name="level"
             value={formData.level}
@@ -67,7 +100,7 @@ const UploadForm = () => {
             className="w-full border border-gray-300 p-2 rounded"
             required
           >
-            <option value="">Select level</option>
+            <option value="">Select Level</option>
             <option value="O Level">O Level</option>
             <option value="A Level">A Level</option>
           </select>

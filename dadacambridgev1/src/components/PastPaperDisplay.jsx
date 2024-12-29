@@ -8,8 +8,8 @@ const PastPapersDisplay = () => {
   const [pastPapers, setPastPapers] = useState([]);
   const [filteredPapers, setFilteredPapers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [year, setYear] = useState('');
-  const [paperVariant, setPaperVariant] = useState('');
+  const [session, setSession] = useState('');
+  const [paperType, setPaperType] = useState('');
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
@@ -21,6 +21,7 @@ const PastPapersDisplay = () => {
       setLoading(true);
       try {
         const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
+          // const response = await axios.get(`https://sproj-prototype1.onrender.com/api/past-papers/past-papers`, {
           params: { level, subject },
         });
         setPastPapers(response.data);
@@ -36,31 +37,14 @@ const PastPapersDisplay = () => {
 
   useEffect(() => {
     const filtered = pastPapers.filter((paper) => (
-      (year ? paper.year === year : true) &&
-      (paperVariant ? paper.paper === paperVariant : true)
+      (session ? paper.session === session : true) &&
+      (paperType ? paper.paperType === paperType : true)
     ));
     setFilteredPapers(filtered);
-  }, [year, paperVariant, pastPapers]);
+  }, [session, paperType, pastPapers]);
 
-  const handleDownload = async (id, name) => {
-    try {
-      const response = await axios.get(`http://localhost:4000/api/past-papers/download/${id}`, {
-        responseType: 'blob',
-      });
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${name}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error('Failed to download past paper', error);
-    }
-  };
-
-  const uniqueYears = [...new Set(pastPapers.map((paper) => paper.year))];
-  const uniqueVariants = [...new Set(pastPapers.map((paper) => paper.paper))];
+  const uniqueSessions = [...new Set(pastPapers.map((paper) => paper.session))];
+  const uniquePaperTypes = [...new Set(pastPapers.map((paper) => paper.paperType))];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -75,32 +59,33 @@ const PastPapersDisplay = () => {
           </p>
         </div>
 
-        {/* Filters */}
+        {/* Loading Animation */}
         {loading ? (
           <div className="flex justify-center items-center h-64">
             <Player animationData={loadingAnimation} style={{ width: '150px', height: '150px' }} loop autoplay />
           </div>
         ) : (
           <>
+            {/* Filters */}
             <div className="flex justify-center gap-6 mb-8">
               <select
-                value={year}
-                onChange={(e) => setYear(e.target.value)}
+                value={session}
+                onChange={(e) => setSession(e.target.value)}
                 className="w-40 px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
               >
-                <option value="">All Years</option>
-                {uniqueYears.map((y, index) => (
-                  <option key={index} value={y}>{y}</option>
+                <option value="">All Sessions</option>
+                {uniqueSessions.map((s, index) => (
+                  <option key={index} value={s}>{s}</option>
                 ))}
               </select>
               <select
-                value={paperVariant}
-                onChange={(e) => setPaperVariant(e.target.value)}
+                value={paperType}
+                onChange={(e) => setPaperType(e.target.value)}
                 className="w-40 px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
               >
-                <option value="">All Paper Variants</option>
-                {uniqueVariants.map((variant, index) => (
-                  <option key={index} value={variant}>{variant}</option>
+                <option value="">All Paper Types</option>
+                {uniquePaperTypes.map((type, index) => (
+                  <option key={index} value={type}>{type}</option>
                 ))}
               </select>
             </div>
@@ -113,17 +98,18 @@ const PastPapersDisplay = () => {
                     key={index}
                     className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 flex flex-col items-center text-center"
                   >
-                    <h2 className="text-xl font-semibold text-gray-800 mb-2">{paper.name}</h2>
-                    <p className="text-sm text-gray-600">Code: {paper.code}</p>
-                    <p className="text-sm text-gray-600">Year: {paper.year}</p>
-                    <p className="text-sm text-gray-600">Type: {paper.what}</p>
-                    <p className="text-sm text-gray-600">Variant: {paper.paper}</p>
-                    <button
-                      onClick={() => handleDownload(paper._id, paper.name)}
+                    <h2 className="text-xl font-semibold text-gray-800 mb-2">{paper.subjectCode}</h2>
+                    <p className="text-sm text-gray-600">Session: {paper.session}</p>
+                    <p className="text-sm text-gray-600">Paper Type: {paper.paperType}</p>
+                    <p className="text-sm text-gray-600">Paper Number: {paper.paperNumber}</p>
+                    <a
+                      href={paper.pdfUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="mt-4 px-4 py-2 bg-teal-500 text-white rounded-md shadow-md hover:bg-teal-600 transition-colors"
                     >
-                      Download PDF
-                    </button>
+                      View PDF
+                    </a>
                   </div>
                 ))}
               </div>

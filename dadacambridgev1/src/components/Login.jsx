@@ -17,7 +17,8 @@ const Login = ({ setUser }) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:4000/api/login', formData);
-      const { token } = response.data;
+      // const response = await axios.post('https://sproj-prototype1.onrender.com/api/login', formData);
+      const { token, message } = response.data;
 
       sessionStorage.setItem('token', token);
 
@@ -32,6 +33,46 @@ const Login = ({ setUser }) => {
     } catch (error) {
       console.error('Login Error:', error);
       setMessage(error.response?.data?.message || 'Error logging in');
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    setShowForgotPassword(true);
+  };
+
+  const handleSendOtp = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/forgot-password', { email: formData.email });
+      // const response = await axios.post('https://sproj-prototype1.onrender.com/api/forgot-password', { email: formData.email });
+      setMessage(response.data.message);
+      setOtpSent(true);
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Error sending OTP');
+    }
+  };
+
+  const handleVerifyOtp = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/verify-otp-for-reset', { email: formData.email, otp });
+      // const response = await axios.post('https://sproj-prototype1.onrender.com/api/verify-otp-for-reset', { email: formData.email, otp });
+      setMessage(response.data.message);
+      setOtpVerified(true);
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Error verifying OTP');
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/api/reset-password', { email: formData.email, newPassword });
+      // const response = await axios.post('https://sproj-prototype1.onrender.com/api/reset-password', { email: formData.email, newPassword });
+      setMessage(response.data.message);
+      setOtpSent(false);
+      setOtpVerified(false);
+      setShowForgotPassword(false);
+      setNewPassword('');
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Error resetting password');
     }
   };
 
