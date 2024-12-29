@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import logo from '../assets/logo.png'; // Adjust the path
+import logo from "../assets/logo.png"; // Adjust the path as needed
 
 const Navbar = ({ user, setUser }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,12 +13,19 @@ const Navbar = ({ user, setUser }) => {
     setUser(null);
 
     setIsMenuOpen(false);
-    navigate('/login');
+
+    setMessage("You have been logged out!");
+    setIsModalVisible(true);
+
+    setTimeout(() => {
+      setIsModalVisible(false);
+      navigate("/login");
+    }, 2000);
   };
 
   return (
     <header className="bg-white shadow-md">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative flex justify-between items-center py-4">
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
         {/* Logo */}
         <div className="flex items-center gap-4">
           <a href="/" className="flex items-center">
@@ -32,68 +38,63 @@ const Navbar = ({ user, setUser }) => {
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-8">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `text-sm font-medium ${
+                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              }`
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/practice-online"
+            className={({ isActive }) =>
+              `text-sm font-medium ${
+                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              }`
+            }
+          >
+            Practice Online
+          </NavLink>
+          <NavLink
+            to="/past-papers"
+            className={({ isActive }) =>
+              `text-sm font-medium ${
+                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              }`
+            }
+          >
+            Past Papers
+          </NavLink>
+          <NavLink
+            to="/expected-exam"
+            className={({ isActive }) =>
+              `text-sm font-medium ${
+                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              }`
+            }
+          >
+            Expected Exam
+          </NavLink>
+          {user?.role === "admin" && (
+            <NavLink
+              to="/upload"
+              className={({ isActive }) =>
+                `text-sm font-medium ${
+                  isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+                }`
+              }
+            >
+              Upload
+            </NavLink>
+          )}
           {user ? (
             <>
-              {/* Common Links for Logged-In Users */}
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  `text-sm font-medium tracking-wide transition-colors ${
-                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
-                  }`
-                }
-              >
-                Home
-              </NavLink>
-              <NavLink
-                to="/practice-online"
-                className={({ isActive }) =>
-                  `text-sm font-medium tracking-wide transition-colors ${
-                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
-                  }`
-                }
-              >
-                Practice Online
-              </NavLink>
-              <NavLink
-                to="/past-papers"
-                className={({ isActive }) =>
-                  `text-sm font-medium tracking-wide transition-colors ${
-                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
-                  }`
-                }
-              >
-                Past Papers
-              </NavLink>
-              <NavLink
-                to="/expected-exam"
-                className={({ isActive }) =>
-                  `text-sm font-medium tracking-wide transition-colors ${
-                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
-                  }`
-                }
-              >
-                Expected Exam
-              </NavLink>
-
-              {/* Admin-Specific Link */}
-              {user.role === 'admin' && (
-                <NavLink
-                  to="/upload"
-                  className={({ isActive }) =>
-                    `text-sm font-medium tracking-wide transition-colors ${
-                      isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
-                    }`
-                  }
-                >
-                  Upload
-                </NavLink>
-              )}
-
-              {/* Profile and Logout */}
               <NavLink
                 to="/profile"
-                className="text-sm font-medium tracking-wide text-gray-700 hover:text-teal-500"
+                className="text-sm font-medium text-gray-700 hover:text-teal-500"
               >
                 Profile
               </NavLink>
@@ -106,7 +107,6 @@ const Navbar = ({ user, setUser }) => {
             </>
           ) : (
             <>
-              {/* Links for Not Logged-In Users */}
               <NavLink
                 to="/login"
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
@@ -135,52 +135,57 @@ const Navbar = ({ user, setUser }) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
           </svg>
         </button>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-4 lg:hidden">
+            <NavLink
+              to="/"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/practice-online"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Practice Online
+            </NavLink>
+            <NavLink
+              to="/past-papers"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Past Papers
+            </NavLink>
+            <NavLink
+              to="/expected-exam"
+              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Expected Exam
+            </NavLink>
+            {user?.role === "admin" && (
+              <NavLink
+                to="/upload"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Upload
+              </NavLink>
+            )}
             {user ? (
               <>
-                <NavLink
-                  to="/"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Home
-                </NavLink>
-                <NavLink
-                  to="/practice-online"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Practice Online
-                </NavLink>
-                <NavLink
-                  to="/past-papers"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Past Papers
-                </NavLink>
-                <NavLink
-                  to="/expected-exam"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Expected Exam
-                </NavLink>
-                {user.role === 'admin' && (
-                  <NavLink
-                    to="/upload"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Upload
-                  </NavLink>
-                )}
                 <NavLink
                   to="/profile"
                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
