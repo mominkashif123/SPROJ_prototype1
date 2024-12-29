@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import logo from '../assets/logo.png'; // Adjust the path
 
 const Navbar = ({ user, setUser }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleLogout = () => {
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem("token");
     setUser(null);
+
     setIsMenuOpen(false);
     navigate('/login');
   };
@@ -214,6 +218,27 @@ const Navbar = ({ user, setUser }) => {
       </nav>
     </header>
   );
+};
+
+const modalStyles = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  zIndex: 1000,
+};
+
+const modalContentStyles = {
+  backgroundColor: "white",
+  padding: "20px",
+  borderRadius: "8px",
+  textAlign: "center",
+  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
 };
 
 export default Navbar;
