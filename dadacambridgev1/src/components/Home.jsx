@@ -1,59 +1,122 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 function Home() {
   return (
-    <div className="overflow-hidden py-20 sm:py-32 lg:pb-32 xl:pb-36 bg-gray-100">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 lg:gap-y-20">
-          {/* Content Section */}
-          <div className="relative z-10 mx-auto max-w-2xl lg:col-span-7 lg:max-w-none lg:pt-6 xl:col-span-6">
-            <h1 className="text-4xl font-medium tracking-tight text-gray-900">
-              Welcome to the Past Papers Repository
-            </h1>
-            <p className="mt-6 text-lg text-gray-600">
-              Access past papers, improve your study, and get ready for exams with our extensive archive.
-            </p>
-          </div>
-
-          {/* Graphic Section */}
-          <div className="relative mt-10 sm:mt-20 lg:col-span-5 lg:row-span-2 lg:mt-0 xl:col-span-6">
-            <div className="absolute left-1/2 top-4 h-[1026px] w-[1026px] -translate-x-1/3 stroke-gray-300/70 sm:top-16 sm:-translate-x-1/2 lg:-top-16 lg:ml-12 xl:-top-14 xl:ml-0">
-              <svg viewBox="0 0 1026 1026" fill="none" aria-hidden="true" className="absolute inset-0 h-full w-full animate-spin-slow">
-                <path d="M1025 513c0 282.77-229.23 512-512 512S1 795.77 1 513 230.23 1 513 1s512 229.23 512 512Z" stroke="#D4D4D4" strokeOpacity="0.7"></path>
-              </svg>
-            </div>
-            <div className="relative aspect-[366/729] mx-auto max-w-[366px]">
-              <div className="absolute left-[calc(23/366*100%)] top-[calc(23/729*100%)] grid h-[calc(686/729*100%)] w-[calc(318/366*100%)] bg-gray-900 rounded-2xl"></div>
-            </div>
+    <div className="overflow-hidden">
+      {/* Hero Section */}
+      <section className="bg-[#f7f7f7] flex flex-col items-center justify-center min-h-screen text-center relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-teal-400 via-teal-300 to-transparent opacity-50"></div>
+        <div className="relative z-10 px-4 sm:px-8">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-gray-900">
+            Ready to Give Yourself a Tough Time?
+          </h1>
+          <p className="mt-6 text-xl md:text-2xl text-gray-700">
+            Push your limits, excel in your studies, and conquer challenges with
+            the ultimate past paper archive and study tools.
+          </p>
+          <div className="mt-8">
+            <a
+              href="/past-papers"
+              className="px-8 py-3 text-white bg-teal-500 rounded-lg text-lg font-semibold hover:bg-teal-700 transition duration-300"
+            >
+              Get Started
+            </a>
           </div>
         </div>
+        <div className="absolute bottom-12 animate-bounce">
+          <p className="text-gray-500">Scroll to Explore</p>
+          <span className="text-teal-400 text-2xl">↓</span>
+        </div>
+      </section>
 
-        {/* Featured Section */}
-        <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-        <ul
-          role="list"
-          className="mx-auto mt-8 flex max-w-xl flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
+      {/* Features Section */}
+      <section className="bg-white min-h-screen flex flex-col items-center justify-center py-24">
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center max-w-4xl"
         >
-          <li className="flex">
-            <img
-              alt="Forbes"
-              loading="lazy"
-              className="h-16 w-32 object-contain" 
-              src="/cam.jpeg"
-            />
-          </li>
-          <li className="flex">
-            <img
-              alt="TechCrunch"
-              loading="lazy"
-              className="h-16 w-32 object-contain" 
-              src="/igcse.jpeg"
-            />
-          </li>
-        </ul>
-      </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
+            Hi, Ready to Get Started?
+          </h2>
+          <p className="mt-4 text-lg text-gray-700">
+            Dive into our features and take your academic preparation to the next level.
+          </p>
+        </motion.div>
 
-      </div>
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl px-4 sm:px-8">
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="p-6 bg-gray-100 rounded-lg shadow-lg text-center"
+          >
+            <h3 className="text-2xl font-semibold text-teal-500">Past Paper Repository</h3>
+            <p className="mt-4 text-gray-600">
+              Dive into the ultimate archive of past papers from various boards and subjects.
+            </p>
+            <a
+              href="/past-papers"
+              className="mt-6 inline-block text-teal-500 font-medium hover:underline"
+            >
+              Explore Now →
+            </a>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="p-6 bg-gray-100 rounded-lg shadow-lg text-center"
+          >
+            <h3 className="text-2xl font-semibold text-teal-500">Get Expected Exams</h3>
+            <p className="mt-4 text-gray-600">
+              Access predictions and patterns to stay ahead in your exam preparation.
+            </p>
+            <a
+              href="/expected-exam"
+              className="mt-6 inline-block text-teal-500 font-medium hover:underline"
+            >
+              Learn More →
+            </a>
+          </motion.div>
+
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            className="p-6 bg-gray-100 rounded-lg shadow-lg text-center"
+          >
+            <h3 className="text-2xl font-semibold text-teal-500">Practice Online</h3>
+            <p className="mt-4 text-gray-600">
+              Want to simulate exams? Practice online as much as you want to perfect your skills.
+            </p>
+            <a
+              href="/practice-online"
+              className="mt-6 inline-block text-teal-500 font-medium hover:underline"
+            >
+              Start Practicing →
+            </a>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Motivational Section */}
+      <section className="bg-gradient-to-r from-teal-400 via-blue-500 to-teal-400 text-white py-24 text-center">
+        <h2 className="text-4xl md:text-5xl font-bold">Why Trust Us?</h2>
+        <p className="mt-4 text-lg max-w-3xl mx-auto">
+          We've been empowering students for years with comprehensive resources,
+          expert guidance, and an unwavering commitment to your success.
+        </p>
+        <div className="mt-8 flex justify-center space-x-4">
+          <img
+            src="/cam.jpeg"
+            alt="Cambridge Logo"
+            className="h-16 object-contain"
+          />
+          <img
+            src="/igcse.jpeg"
+            alt="IGCSE Logo"
+            className="h-16 object-contain"
+          />
+        </div>
+      </section>
     </div>
   );
 }

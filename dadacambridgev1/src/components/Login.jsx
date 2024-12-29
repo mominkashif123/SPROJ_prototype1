@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import logo from '../assets/logo.png';
 
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [otp, setOtp] = useState('');
-  const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [otpVerified, setOtpVerified] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -35,9 +28,10 @@ const Login = ({ setUser }) => {
       sessionStorage.setItem('role', role);
       setUser({ username, role });
 
-      setMessage(message);
+      setMessage('');
       navigate('/welcome');
     } catch (error) {
+      console.error('Login Error:', error);
       setMessage(error.response?.data?.message || 'Error logging in');
     }
   };
@@ -83,18 +77,42 @@ const Login = ({ setUser }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen px-4">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      {!showForgotPassword ? (
-        <>
-          <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-sm">
+    <div className="flex flex-col lg:flex-row h-screen">
+      {/* Left Section */}
+      <div className="flex flex-col justify-center items-center w-full lg:w-1/2 bg-white px-6 sm:px-10 lg:px-16 py-10">
+        {/* Logo */}
+        <div
+          className="absolute top-4 left-4 cursor-pointer"
+          onClick={() => navigate('/')}
+        >
+          <a aria-label="Home" href="/" className="flex items-center gap-4">
+            <img 
+              src={logo} 
+              alt="DadaCambridge Logo" 
+              className="w-10 h-auto" 
+            />
+            <span className="text-lg font-medium font-montserrat text-gray-900 uppercase">
+              DADACAMBRIDGE
+            </span>
+          </a>
+        </div>
+
+        {/* Login Form */}
+        <div className="w-full max-w-sm">
+          <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
+            Login to Your Account
+          </h2>
+          {message && (
+            <p className="text-center text-red-500 mb-4">{message}</p>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Email"
-              className="border p-2 w-full rounded"
+              placeholder="Email address"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
               required
             />
             <input
@@ -103,84 +121,52 @@ const Login = ({ setUser }) => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
-              className="border p-2 w-full rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400"
               required
             />
-            <button type="submit" className="bg-blue-500 text-white p-2 w-full rounded">Login</button>
-          </form>
-          <button
-            onClick={handleForgotPassword}
-            className="text-sm text-blue-500 mt-4 underline"
-          >
-            Forgot Password?
-          </button>
-        </>
-      ) : (
-        <>
-          {otpSent ? (
-            otpVerified ? (
-              <>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="Enter new password"
-                  className="border p-2 w-full rounded mt-4"
-                  required
-                />
-                <button
-                  onClick={handleResetPassword}
-                  className="bg-blue-500 text-white p-2 w-full rounded mt-4"
-                >
-                  Reset Password
-                </button>
-              </>
-            ) : (
-              <>
-                <input
-                  type="text"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value)}
-                  placeholder="Enter OTP"
-                  className="border p-2 w-full rounded mt-4"
-                  required
-                />
-                <button
-                  onClick={handleVerifyOtp}
-                  className="bg-blue-500 text-white p-2 w-full rounded mt-4"
-                >
-                  Verify OTP
-                </button>
-              </>
-            )
-          ) : (
-            <>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter your email"
-                className="border p-2 w-full rounded"
-                required
-              />
+            <div className="flex flex-col sm:flex-row items-center justify-between">
+              <label className="text-sm text-gray-600 flex items-center mb-2 sm:mb-0">
+                <input type="checkbox" className="mr-2" /> Remember for 30 days
+              </label>
               <button
-                onClick={handleSendOtp}
-                className="bg-blue-500 text-white p-2 w-full rounded mt-4"
+                type="button"
+                className="text-sm text-teal-500 hover:underline"
+                onClick={() => console.log('Forgot Password')}
               >
-                Send OTP
+                Forgot password?
               </button>
-            </>
-          )}
-          <button
-            onClick={() => setShowForgotPassword(false)}
-            className="text-sm text-blue-500 mt-4 underline"
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-teal-500 text-white font-medium py-3 rounded-lg hover:bg-teal-600 transition duration-300"
+            >
+              Sign in
+            </button>
+          </form>
+        </div>
+      </div>
+
+      {/* Right Section */}
+      <div
+        className="hidden lg:flex w-1/2 flex-col justify-center items-center bg-gradient-to-br from-teal-400 to-blue-500 text-white relative"
+      >
+        <div className="absolute inset-0 flex justify-center items-center z-0">
+          <div className="w-48 h-48 rounded-full bg-white opacity-20 absolute"></div>
+          <div className="w-72 h-72 rounded-full bg-white opacity-10 absolute top-20"></div>
+        </div>
+        <div className="relative z-10 text-center px-6">
+          <h2 className="text-3xl font-bold">New Here?</h2>
+          <p className="mt-2 text-lg">
+            Join us and explore endless opportunities to grow and excel.
+          </p>
+          <a
+            href="/signup"
+            className="mt-6 inline-block bg-white text-teal-500 font-medium py-2 px-6 rounded-lg shadow-md hover:bg-gray-100 transition duration-300"
           >
-            Back to Login
-          </button>
-        </>
-      )}
-      {message && <p className="mt-4">{message}</p>}
+            Sign Up
+          </a>
+        </div>
+      </div>
     </div>
   );
 };

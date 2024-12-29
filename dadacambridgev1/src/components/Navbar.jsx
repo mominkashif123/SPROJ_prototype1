@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png'; // Adjust the path
 
 const Navbar = ({ user, setUser }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -8,112 +9,184 @@ const Navbar = ({ user, setUser }) => {
   const handleLogout = () => {
     sessionStorage.removeItem('token');
     setUser(null);
-    navigate('/login');
     setIsMenuOpen(false);
+    navigate('/login');
   };
 
   return (
-    <header>
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-50 flex justify-between py-8">
-        <div className="relative z-10 flex items-center gap-16">
-          {/* Logo */}
-          <a aria-label="Home" href="/" className="flex items-center">
-            <svg viewBox="0 0 40 40" aria-hidden="true" width="40" height="40" className="fill-cyan-500">
-              <path fillRule="evenodd" clipRule="evenodd" d="M20 40C8.954 40 0 31.046 0 20S8.954 0 20 0s20 8.954 20 20-8.954 20-20 20ZM4 20c0 7.264 5.163 13.321 12.02 14.704C17.642 35.03 19 33.657 19 32V8c0-1.657-1.357-3.031-2.98-2.704C9.162 6.68 4 12.736 4 20Z"></path>
-            </svg>
-            <span className="ml-2 font-bold text-lg">DadaCambridge</span>
+    <header className="bg-white shadow-md">
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative flex justify-between items-center py-4">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <a href="/" className="flex items-center">
+            <img src={logo} alt="DadaCambridge Logo" className="w-10 h-auto" />
+            <span className="ml-2 text-xl font-bold text-gray-800 tracking-wide">
+              DadaCambridge
+            </span>
           </a>
-
-          {/* Navigation Links */}
-          <div className="hidden lg:flex lg:gap-10">
-            <NavLink
-              to="/"
-              className={({ isActive }) =>
-                `relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${
-                  isActive ? 'text-gray-900' : 'text-gray-700'
-                }`
-              }
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/past-papers"
-              className={({ isActive }) =>
-                `relative -mx-3 -my-2 rounded-lg px-3 py-2 text-sm transition-colors delay-150 hover:text-gray-900 ${
-                  isActive ? 'text-gray-900' : 'text-gray-700'
-                }`
-              }
-            >
-              Past Papers
-            </NavLink>
-          </div>
         </div>
 
-        {/* Right Side (User Info & Auth Links) */}
-        <div className="hidden lg:flex items-center gap-6">
-          {user && user.username ? (
+        {/* Desktop Navigation */}
+        <div className="hidden lg:flex items-center gap-8">
+          {user ? (
             <>
-              <span className="text-gray-700">Logged in as {user.username}</span>
+              {/* Common Links for Logged-In Users */}
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `text-sm font-medium tracking-wide transition-colors ${
+                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/practice-online"
+                className={({ isActive }) =>
+                  `text-sm font-medium tracking-wide transition-colors ${
+                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
+                  }`
+                }
+              >
+                Practice Online
+              </NavLink>
+              <NavLink
+                to="/past-papers"
+                className={({ isActive }) =>
+                  `text-sm font-medium tracking-wide transition-colors ${
+                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
+                  }`
+                }
+              >
+                Past Papers
+              </NavLink>
+              <NavLink
+                to="/expected-exam"
+                className={({ isActive }) =>
+                  `text-sm font-medium tracking-wide transition-colors ${
+                    isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
+                  }`
+                }
+              >
+                Expected Exam
+              </NavLink>
+
+              {/* Admin-Specific Link */}
+              {user.role === 'admin' && (
+                <NavLink
+                  to="/upload"
+                  className={({ isActive }) =>
+                    `text-sm font-medium tracking-wide transition-colors ${
+                      isActive ? 'text-teal-500' : 'text-gray-700 hover:text-teal-500'
+                    }`
+                  }
+                >
+                  Upload
+                </NavLink>
+              )}
+
+              {/* Profile and Logout */}
+              <NavLink
+                to="/profile"
+                className="text-sm font-medium tracking-wide text-gray-700 hover:text-teal-500"
+              >
+                Profile
+              </NavLink>
               <button
                 onClick={handleLogout}
-                className="inline-flex justify-center rounded-lg px-4 py-2 text-sm font-semibold transition-colors bg-gray-800 text-white hover:bg-gray-900"
+                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
               >
                 Logout
               </button>
             </>
           ) : (
             <>
+              {/* Links for Not Logged-In Users */}
               <NavLink
                 to="/login"
-                className="inline-flex justify-center rounded-lg border py-2 px-4 text-sm transition-colors border-gray-300 text-gray-700 hover:border-gray-400 hover:text-gray-900"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >
-                Log in
+                Login
               </NavLink>
               <NavLink
                 to="/signup"
-                className="inline-flex justify-center rounded-lg py-2 px-3 text-sm font-semibold transition-colors bg-gray-800 text-white hover:bg-gray-900"
+                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
               >
-                Sign Up
+                Signup
               </NavLink>
             </>
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="lg:hidden">
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="relative z-10 -m-2 inline-flex items-center rounded-lg p-2 hover:bg-gray-200/50"
-            aria-label="Toggle site navigation"
+        {/* Mobile Menu Toggle */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="lg:hidden p-2 rounded-md hover:bg-gray-200 focus:outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6 text-gray-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
           >
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-6 w-6">
-              <path d="M5 6h14M5 18h14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"></path>
-            </svg>
-          </button>
-        </div>
-        
-        {/* Mobile Menu Dropdown */}
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+
+        {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden absolute top-20 right-4 bg-white shadow-lg rounded-lg p-4 w-48 z-20">
-            <NavLink
-              to="/"
-              onClick={() => setIsMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/past-papers"
-              onClick={() => setIsMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
-            >
-              Past Papers
-            </NavLink>
-            {user && user.username ? (
+          <div className="absolute top-full right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-4 lg:hidden">
+            {user ? (
               <>
+                <NavLink
+                  to="/"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Home
+                </NavLink>
+                <NavLink
+                  to="/practice-online"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Practice Online
+                </NavLink>
+                <NavLink
+                  to="/past-papers"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Past Papers
+                </NavLink>
+                <NavLink
+                  to="/expected-exam"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Expected Exam
+                </NavLink>
+                {user.role === 'admin' && (
+                  <NavLink
+                    to="/upload"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Upload
+                  </NavLink>
+                )}
+                <NavLink
+                  to="/profile"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Profile
+                </NavLink>
                 <button
                   onClick={handleLogout}
-                  className="block w-full text-left px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                 >
                   Logout
                 </button>
@@ -122,17 +195,17 @@ const Navbar = ({ user, setUser }) => {
               <>
                 <NavLink
                   to="/login"
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
                 >
-                  Log in
+                  Login
                 </NavLink>
                 <NavLink
                   to="/signup"
+                  className="block px-6 py-2 text-sm text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100"
                 >
-                  Sign Up
+                  Signup
                 </NavLink>
               </>
             )}

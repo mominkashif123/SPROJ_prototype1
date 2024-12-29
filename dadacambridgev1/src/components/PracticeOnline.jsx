@@ -1,40 +1,33 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
 
-const PastPapersSelection = () => {
-  const navigate = useNavigate();
-
-  const handleLevelSelect = (level) => {
-    navigate(`/past-papers/subjects?level=${encodeURIComponent(level)}`);
-  };
-
+const PracticeOnline = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6 pt-20">
       {/* Heading Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-          Explore Past Papers
+          Practice Online
         </h1>
         <p className="text-lg text-gray-600">
-          Select your level to access carefully curated resources for your preparation.
+          Get ready for your exams by practicing with a variety of online exercises and tests.
         </p>
       </div>
 
-      {/* Level Selection Cards */}
+      {/* Practice Options */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-4xl">
+        {/* Option 1: Start Practice */}
         <div
-          onClick={() => handleLevelSelect("O Level")}
           className="relative group flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-lg h-64 cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-out"
         >
-          <h2 className="text-2xl font-semibold text-gray-800 z-10">O Level</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 z-10">Start Practice</h2>
           <div className="absolute inset-0 bg-teal-200 opacity-0 group-hover:opacity-50 transition-opacity"></div>
         </div>
 
+        {/* Option 2: Practice with Timed Tests */}
         <div
-          onClick={() => handleLevelSelect("A Level")}
           className="relative group flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-lg h-64 cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-out"
         >
-          <h2 className="text-2xl font-semibold text-gray-800 z-10">A Level</h2>
+          <h2 className="text-2xl font-semibold text-gray-800 z-10">Timed Test</h2>
           <div className="absolute inset-0 bg-teal-200 opacity-0 group-hover:opacity-50 transition-opacity"></div>
         </div>
       </div>
@@ -45,7 +38,7 @@ const PastPapersSelection = () => {
         className="mt-16 bg-gray-50 rounded-xl py-16 px-8 sm:px-12 lg:px-20 shadow-lg w-full max-w-6xl"
       >
         <h2 className="text-3xl font-bold text-center mb-8 text-gray-900">
-          Why Choose Our Past Papers?
+          Why Choose Practice Online?
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-gray-700">
           {/* Feature 1 */}
@@ -66,10 +59,9 @@ const PastPapersSelection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Comprehensive Archive</h3>
+            <h3 className="text-lg font-semibold mb-2">Comprehensive Practice</h3>
             <p>
-              Access an extensive collection of past papers tailored to your
-              educational needs.
+              Practice various exercises that cover all topics and difficulty levels.
             </p>
           </div>
 
@@ -91,9 +83,9 @@ const PastPapersSelection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Easy Accessibility</h3>
+            <h3 className="text-lg font-semibold mb-2">Real-Time Feedback</h3>
             <p>
-              Navigate and download resources seamlessly, from any device.
+              Get instant feedback on your answers to improve your performance.
             </p>
           </div>
 
@@ -115,9 +107,9 @@ const PastPapersSelection = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-semibold mb-2">Real-Time Updates</h3>
+            <h3 className="text-lg font-semibold mb-2">Progress Tracking</h3>
             <p>
-              Stay updated with the latest past papers and educational content.
+              Track your progress and identify areas where you need to focus more.
             </p>
           </div>
         </div>
@@ -126,4 +118,4 @@ const PastPapersSelection = () => {
   );
 };
 
-export default PastPapersSelection;
+export default PracticeOnline;
