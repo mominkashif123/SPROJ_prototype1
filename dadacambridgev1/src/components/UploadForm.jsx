@@ -5,6 +5,7 @@ const UploadForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     subjectCode: '', // Updated: corresponds to the new schema
+    year: '',       // Updated: corresponds to the new schema
     session: '',     // Updated: corresponds to the new schema
     paperType: '',   // Updated: corresponds to the new schema
     paperNumber: '',  // Updated: corresponds to the new schema
@@ -49,7 +50,7 @@ const UploadForm = () => {
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Upload Past Paper</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        {['name', 'subjectCode', 'paperNumber'].map((field, index) => (
+        {['name', 'subjectCode', 'year', 'paperNumber'].map((field, index) => (
           <div key={index}>
             <label className="block font-medium mb-1 capitalize">{field}</label>
             <input

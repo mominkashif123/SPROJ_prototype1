@@ -30,10 +30,11 @@ const uploadToS3 = async (file) => {
 router.post('/upload', upload.single('pdf'), async (req, res) => {
   try {
     // Extract metadata from the request
-    const { name, subjectCode, session, paperType, paperNumber, level } = req.body;
+    const { name, subjectCode, year, session, paperType, paperNumber, level } = req.body;
+    console.log(req.body);
 
     // Validate the required fields
-    if ( !name ||!subjectCode || !session || !paperType || !paperNumber || !req.file || !level) {
+    if ( !name ||!subjectCode || !year || !session || !paperType || !paperNumber || !req.file || !level) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
@@ -44,6 +45,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
     const newPastPaper = new PastPaper({
       name,
       subjectCode,
+      year,
       session,
       paperType,
       paperNumber,
@@ -72,8 +74,9 @@ router.get('/subjects/:level', async (req, res) => {
 
 router.get('/past-papers', async (req, res) => {
   const { level, subject } = req.query; 
+  console.log(level, subject);
   try {
-    const papers = await PastPaper.find({ level: level, name: subject });
+    const papers = await PastPaper.find({ level: level, name: subject});
     res.status(200).json(papers);         
   } catch (error) {
     console.error("Error fetching past papers:", error);

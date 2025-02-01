@@ -21,7 +21,7 @@ const PastPapersDisplay = () => {
       setLoading(true);
       try {
         // const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
-        const response = await axios.get(`https://sproj-prototype1-1.onrender.com/api/past-papers/past-papers`, {
+        const response = await axios.get(`https://sproj-prototype1-1.onrender.com/api/past-papers/past-papers`, { 
           params: { level, subject },
         });
         setPastPapers(response.data);
@@ -35,6 +35,7 @@ const PastPapersDisplay = () => {
     fetchPastPapers();
   }, [level, subject]);
 
+  console.log(pastPapers);
   useEffect(() => {
     const filtered = pastPapers.filter((paper) => (
       (session ? paper.session === session : true) &&
@@ -99,6 +100,7 @@ const PastPapersDisplay = () => {
                     className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6 flex flex-col items-center text-center"
                   >
                     <h2 className="text-xl font-semibold text-gray-800 mb-2">{paper.subjectCode}</h2>
+                    <p className="text-sm text-gray-600">Year: {paper.year}</p>
                     <p className="text-sm text-gray-600">Session: {paper.session}</p>
                     <p className="text-sm text-gray-600">Paper Type: {paper.paperType}</p>
                     <p className="text-sm text-gray-600">Paper Number: {paper.paperNumber}</p>
