@@ -31,7 +31,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
   try {
     // Extract metadata from the request
     const { name, subjectCode, year, session, paperType, paperNumber, level } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     // Validate the required fields
     if ( !name ||!subjectCode || !year || !session || !paperType || !paperNumber || !req.file || !level) {
@@ -74,7 +74,7 @@ router.get('/subjects/:level', async (req, res) => {
 
 router.get('/past-papers', async (req, res) => {
   const { level, subject } = req.query; 
-  console.log(level, subject);
+  // console.log(level, subject);
   try {
     const papers = await PastPaper.find({ level: level, name: subject});
     res.status(200).json(papers);         
