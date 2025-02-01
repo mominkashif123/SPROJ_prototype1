@@ -31,7 +31,7 @@ router.post('/upload', upload.single('pdf'), async (req, res) => {
   try {
     // Extract metadata from the request
     const { name, subjectCode, year, session, paperType, paperNumber, level } = req.body;
-    // console.log(req.body);
+    console.log(req.body);
 
     // Validate the required fields
     if ( !name ||!subjectCode || !year || !session || !paperType || !paperNumber || !req.file || !level) {
