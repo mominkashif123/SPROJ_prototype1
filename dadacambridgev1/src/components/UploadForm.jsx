@@ -42,6 +42,8 @@ const UploadForm = () => {
     }
   };
 
+  // console.log(formData);
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };

@@ -37,12 +37,16 @@ const PastPapersDisplay = () => {
 
   console.log(pastPapers);
   useEffect(() => {
-    const filtered = pastPapers.filter((paper) => (
-      (session ? paper.session === session : true) &&
-      (paperType ? paper.paperType === paperType : true)
-    ));
-    setFilteredPapers(filtered);
+    const filteredAndSorted = pastPapers
+      .filter((paper) => 
+        (session ? paper.session === session : true) &&
+        (paperType ? paper.paperType === paperType : true)
+      )
+      .sort((a, b) => parseInt(b.year) - parseInt(a.year)); // Sort by year (descending)
+  
+    setFilteredPapers(filteredAndSorted);
   }, [session, paperType, pastPapers]);
+  
 
   const uniqueSessions = [...new Set(pastPapers.map((paper) => paper.session))];
   const uniquePaperTypes = [...new Set(pastPapers.map((paper) => paper.paperType))];
