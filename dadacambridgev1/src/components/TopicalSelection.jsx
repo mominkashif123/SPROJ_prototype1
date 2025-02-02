@@ -1,11 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const PastPapersSelection = () => {
+const TopicalPastPapersSelection = () => {
   const navigate = useNavigate();
 
   const handleLevelSelect = (level) => {
-    navigate(`/past-papers/subjects?level=${encodeURIComponent(level)}`);
+    navigate(`/topical-papers/subjects?level=${encodeURIComponent(level)}`);
   };
 
   return (
@@ -13,7 +13,7 @@ const PastPapersSelection = () => {
       {/* Heading Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-          Explore Yearly Past Papers
+          Explore Topical Past Papers
         </h1>
         <p className="text-lg text-gray-600">
           Select your level to access carefully curated resources for your preparation.
@@ -126,4 +126,4 @@ const PastPapersSelection = () => {
   );
 };
 
-export default PastPapersSelection;
+export default TopicalPastPapersSelection;

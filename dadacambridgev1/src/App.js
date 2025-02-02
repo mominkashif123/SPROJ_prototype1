@@ -14,6 +14,11 @@ import SubjectsList from "./components/SubjectsList.jsx";
 import ExpectedExam from "./components/ExpectedExam.jsx"; // Import ExpectedExam page
 import PracticeOnline from "./components/PracticeOnline.jsx"; // Import PracticeOnline page
 import Profile from "./components/Profile.jsx"; // Import Profile page (if required)
+import TopicalUploadForm from "./components/UploadTopical.jsx";
+import TopicalPastPapersSelection from "./components/TopicalSelection.jsx";
+import TopicalSubjectsList from "./components/TopicalSubjectsList.jsx";
+import TopicalTopicsList from "./components/TopicalTopicsList.jsx";
+// import TopicalPapersDisplay from "./components/TopicalPapersDisplay.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -69,8 +74,28 @@ function App() {
           element={user ? <PastPapersDisplay /> : <Navigate to="/" />}
         />
         <Route
+          path="/topical-papers"
+          element={user ? <TopicalPastPapersSelection /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/topical-papers/subjects"
+          element={user ? <TopicalSubjectsList /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/topical-papers/topics"
+          element={user ? <TopicalTopicsList /> : <Navigate to="/" />}
+        />
+        {/* <Route
+          path="/topical-papers/display"
+          element={user ? <TopicalPapersDisplay /> : <Navigate to="/" />}
+        /> */}
+        <Route
           path="/upload"
           element={isAdmin ? <UploadForm /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/upload-topical"
+          element={isAdmin ? <TopicalUploadForm /> : <Navigate to="/" />}
         />
         <Route
           path="/expected-exam"

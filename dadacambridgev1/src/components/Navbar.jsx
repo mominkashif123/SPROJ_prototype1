@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png"; // Adjust the path as needed
 
@@ -41,8 +41,9 @@ const Navbar = ({ user, setUser }) => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              `text-sm font-medium ${
-                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              `text-sm font-medium ${isActive
+                ? "text-teal-500 border-b-2 border-teal-500"
+                : "text-gray-700 hover:text-teal-500"
               }`
             }
           >
@@ -51,8 +52,9 @@ const Navbar = ({ user, setUser }) => {
           <NavLink
             to="/practice-online"
             className={({ isActive }) =>
-              `text-sm font-medium ${
-                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              `text-sm font-medium ${isActive
+                ? "text-teal-500 border-b-2 border-teal-500"
+                : "text-gray-700 hover:text-teal-500"
               }`
             }
           >
@@ -61,29 +63,47 @@ const Navbar = ({ user, setUser }) => {
           <NavLink
             to="/past-papers"
             className={({ isActive }) =>
-              `text-sm font-medium ${
-                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              `text-sm font-medium ${isActive
+                ? "text-teal-500 border-b-2 border-teal-500"
+                : "text-gray-700 hover:text-teal-500"
               }`
             }
           >
-            Past Papers
+            Yearly Past Papers
+          </NavLink>
+          <NavLink
+            to="/topical-papers"
+            className={({ isActive }) =>
+              `text-sm font-medium ${isActive
+                ? "text-teal-500 border-b-2 border-teal-500"
+                : "text-gray-700 hover:text-teal-500"
+              }`
+            }
+          >
+            Topical Papers
           </NavLink>
           <NavLink
             to="/expected-exam"
             className={({ isActive }) =>
-              `text-sm font-medium ${
-                isActive ? "text-teal-500" : "text-gray-700 hover:text-teal-500"
+              `text-sm font-medium ${isActive
+                ? "text-teal-500 border-b-2 border-teal-500"
+                : "text-gray-700 hover:text-teal-500"
               }`
             }
           >
             Expected Exam
           </NavLink>
-          
+
           {user ? (
             <>
               <NavLink
                 to="/profile"
-                className="text-sm font-medium text-gray-700 hover:text-teal-500"
+                className={({ isActive }) =>
+                  `text-sm font-medium ${isActive
+                    ? "text-teal-500 border-b-2 border-teal-500"
+                    : "text-gray-700 hover:text-teal-500"
+                  }`
+                }
               >
                 Profile
               </NavLink>
@@ -98,13 +118,23 @@ const Navbar = ({ user, setUser }) => {
             <>
               <NavLink
                 to="/login"
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                className={({ isActive }) =>
+                  `px-4 py-2 text-sm font-medium ${isActive
+                    ? "text-teal-500 border-b-2 border-teal-500"
+                    : "text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                  }`
+                }
               >
                 Login
               </NavLink>
               <NavLink
                 to="/signup"
-                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
+                className={({ isActive }) =>
+                  `px-4 py-2 text-sm font-medium ${isActive
+                    ? "text-white bg-teal-500 rounded-lg border-b-2 border-teal-500"
+                    : "text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
+                  }`
+                }
               >
                 Signup
               </NavLink>
