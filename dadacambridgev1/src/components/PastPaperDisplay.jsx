@@ -10,6 +10,7 @@ const PastPapersDisplay = () => {
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState('');
   const [paperType, setPaperType] = useState('');
+  const [paperNumber, setPaperNumber] = useState('');
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
@@ -20,8 +21,7 @@ const PastPapersDisplay = () => {
     const fetchPastPapers = async () => {
       setLoading(true);
       try {
-        // const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, {
-        const response = await axios.get(`https://sproj-prototype1-1.onrender.com/api/past-papers/past-papers`, { 
+        const response = await axios.get(`http://localhost:4000/api/past-papers/past-papers`, { 
           params: { level, subject },
         });
         setPastPapers(response.data);
@@ -35,21 +35,21 @@ const PastPapersDisplay = () => {
     fetchPastPapers();
   }, [level, subject]);
 
-  console.log(pastPapers);
   useEffect(() => {
     const filteredAndSorted = pastPapers
-      .filter((paper) => 
+      .filter((paper) =>
         (session ? paper.session === session : true) &&
-        (paperType ? paper.paperType === paperType : true)
+        (paperType ? paper.paperType === paperType : true) &&
+        (paperNumber ? paper.paperNumber.toString() === paperNumber : true)
       )
       .sort((a, b) => parseInt(b.year) - parseInt(a.year)); // Sort by year (descending)
-  
+
     setFilteredPapers(filteredAndSorted);
-  }, [session, paperType, pastPapers]);
-  
+  }, [session, paperType, paperNumber, pastPapers]);
 
   const uniqueSessions = [...new Set(pastPapers.map((paper) => paper.session))];
   const uniquePaperTypes = [...new Set(pastPapers.map((paper) => paper.paperType))];
+  const uniquePaperNumbers = [...new Set(pastPapers.map((paper) => paper.paperNumber))];
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -91,6 +91,16 @@ const PastPapersDisplay = () => {
                 <option value="">All Paper Types</option>
                 {uniquePaperTypes.map((type, index) => (
                   <option key={index} value={type}>{type}</option>
+                ))}
+              </select>
+              <select
+                value={paperNumber}
+                onChange={(e) => setPaperNumber(e.target.value)}
+                className="w-40 px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"
+              >
+                <option value="">All Paper Numbers</option>
+                {uniquePaperNumbers.map((num, index) => (
+                  <option key={index} value={num}>{num}</option>
                 ))}
               </select>
             </div>
