@@ -112,7 +112,7 @@ const Login = ({ setUser }) => {
       {/* Left Section */}
       <div className="flex flex-col justify-center items-center w-full lg:w-1/2 bg-white px-6 sm:px-10 lg:px-16 py-10">
         {/* Logo */}
-        <div
+        {/* <div
           className="absolute top-4 left-4 cursor-pointer"
           onClick={() => navigate("/")}
         >
@@ -127,7 +127,7 @@ const Login = ({ setUser }) => {
               DADACAMBRIDGE
             </span>
           </a>
-        </div>
+        </div> */}
 
         {!showForgotPassword ? (
           <>

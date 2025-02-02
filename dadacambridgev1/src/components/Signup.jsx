@@ -60,7 +60,7 @@ const Signup = () => {
       {/* Left Section */}
       <div className="flex-1 bg-white flex flex-col justify-center items-center px-6 lg:px-10 relative z-20">
         {/* Logo */}
-        <div
+        {/* <div
           className="absolute top-4 left-4 lg:left-8 cursor-pointer z-30"
           onClick={() => navigate('/')}
         >
@@ -74,7 +74,7 @@ const Signup = () => {
               DADACAMBRIDGE
             </span>
           </a>
-        </div>
+        </div> */}
 
         <div className="w-full max-w-sm">
           <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 text-center mb-4">
