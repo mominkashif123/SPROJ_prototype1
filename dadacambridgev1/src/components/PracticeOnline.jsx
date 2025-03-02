@@ -1,6 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PracticeOnline = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6 pt-20">
       {/* Heading Section */}
@@ -9,27 +12,18 @@ const PracticeOnline = () => {
           Practice Online
         </h1>
         <p className="text-lg text-gray-600">
-          Get ready for your exams by practicing with a variety of online exercises and tests.
+          Get ready for your exams by practicing with a variety of online exercises.
         </p>
       </div>
 
-      {/* Practice Options */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full max-w-4xl">
-        {/* Option 1: Start Practice */}
-        <div
-          className="relative group flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-lg h-64 cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-out"
+      {/* Start Practice Button */}
+      <div className="w-full max-w-md">
+        <button
+          onClick={() => navigate('/practice')}
+          className="w-full bg-teal-600 hover:bg-teal-700 text-white text-xl font-semibold py-4 rounded-lg shadow-md transition duration-300"
         >
-          <h2 className="text-2xl font-semibold text-gray-800 z-10">Start Practice</h2>
-          <div className="absolute inset-0 bg-teal-200 opacity-0 group-hover:opacity-50 transition-opacity"></div>
-        </div>
-
-        {/* Option 2: Practice with Timed Tests */}
-        <div
-          className="relative group flex flex-col items-center justify-center bg-white border border-gray-300 rounded-lg shadow-lg h-64 cursor-pointer transform hover:scale-105 transition-transform duration-300 ease-out"
-        >
-          <h2 className="text-2xl font-semibold text-gray-800 z-10">Timed Test</h2>
-          <div className="absolute inset-0 bg-teal-200 opacity-0 group-hover:opacity-50 transition-opacity"></div>
-        </div>
+          Start Practice
+        </button>
       </div>
 
       {/* Features Section */}

@@ -18,7 +18,8 @@ import TopicalUploadForm from "./components/UploadTopical.jsx";
 import TopicalPastPapersSelection from "./components/TopicalSelection.jsx";
 import TopicalSubjectsList from "./components/TopicalSubjectsList.jsx";
 import TopicalTopicsList from "./components/TopicalTopicsList.jsx";
-// import TopicalPapersDisplay from "./components/TopicalPapersDisplay.jsx";
+import Practice2015 from "./components/PracticePaper.jsx";
+import PastPapersList from "./components/PastPapersList.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -84,6 +85,14 @@ function App() {
         <Route
           path="/topical-papers/topics"
           element={user ? <TopicalTopicsList /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/practice"
+          element={user ? <PastPapersList /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/practice/:year"
+          element={user ? <Practice2015 /> : <Navigate to="/" />}
         />
         {/* <Route
           path="/topical-papers/display"
