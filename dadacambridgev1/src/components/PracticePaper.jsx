@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Papa from "papaparse";
-import { checkSimilarity } from "../utils/nlpUtils";
+import { loadNLPModel, checkSimilarity } from "../utils/nlpUtils"; // ✅ Load model before checking similarity
 
 const Practice = () => {
     const { year } = useParams(); 
@@ -9,7 +9,20 @@ const Practice = () => {
     const [answers, setAnswers] = useState({});
     const [marks, setMarks] = useState({});
     const [loading, setLoading] = useState({}); 
+    const [modelLoaded, setModelLoaded] = useState(false); // ✅ Track model loading state
 
+    // ✅ Load NLP Model As Soon As Component Mounts
+    useEffect(() => {
+        const initializeModel = async () => {
+            console.log("🔄 Loading NLP model...");
+            await loadNLPModel();
+            setModelLoaded(true);
+            console.log("✅ NLP model loaded!");
+        };
+        initializeModel();
+    }, []);
+
+    // ✅ Load Questions Based on Selected Year
     useEffect(() => {
         fetch("/extracted_questions_pkhist.csv")
             .then(response => response.text())
@@ -41,7 +54,13 @@ const Practice = () => {
         setAnswers({ ...answers, [index]: value });
     };
 
+    // ✅ Grade Answer After Ensuring Model is Loaded
     const gradeAnswer = async (index, questionText, userAnswer) => {
+        if (!modelLoaded) {
+            console.warn("⏳ NLP Model not loaded yet! Please wait.");
+            return;
+        }
+
         setLoading(prev => ({ ...prev, [index]: true })); // Start loading
         let score = 0;
         const maxMarks = questions[index].marks;
@@ -116,6 +135,11 @@ const Practice = () => {
             <h1 className="text-3xl font-bold text-center mb-6">{year} Exam Practice</h1>
             <p className="text-lg text-gray-600 mb-6">Write your answers below and get automatic grading.</p>
 
+            {/* Show Loading Indicator for NLP Model */}
+            {!modelLoaded && (
+                <div className="text-blue-600 font-semibold mb-4">🔄 Loading AI Model... Please wait</div>
+            )}
+
             <div className="w-full max-w-4xl">
                 {questions.map((q, index) => (
                     <div key={index} className="mb-6 p-6 bg-white shadow-lg rounded-lg">
@@ -126,11 +150,12 @@ const Practice = () => {
                             placeholder="Write your answer here..."
                             value={answers[index] || ""}
                             onChange={(e) => handleInputChange(index, e.target.value)}
+                            disabled={!modelLoaded} // ✅ Disable input until model loads
                         ></textarea>
                         <button
                             className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                             onClick={() => gradeAnswer(index, q.question, answers[index] || "")}
-                            disabled={loading[index]} // ✅ Disable button while grading
+                            disabled={loading[index] || !modelLoaded} // ✅ Disable until model is ready
                         >
                             {loading[index] ? "Grading..." : "Submit Answer"}
                         </button>
