@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Papa from "papaparse";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const PracticePakStudies = () => {
   const [years, setYears] = useState([]);
@@ -13,12 +14,13 @@ const PracticePakStudies = () => {
         Papa.parse(csvText, {
           header: true,
           complete: (results) => {
-            const uniqueYears = [
-              ...new Set(
-                results.data.map((row) => row.Year).filter((year) => year)
-              ),
-            ];
+            const allYears = results.data
+              .map((row) => parseInt(row.Year, 10)) // Convert to numbers
+              .filter((year) => year >= 2015 && year <= 2024); // Ensure valid years
+
+            const uniqueYears = [...new Set(allYears)]; // Remove duplicates
             uniqueYears.sort((a, b) => b - a); // Sort in descending order
+
             setYears(uniqueYears);
           },
         });
@@ -30,30 +32,33 @@ const PracticePakStudies = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6 pt-20">
-      <h1 className="text-3xl font-bold text-center mb-6">
-        Select a Year for PakStudies
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-70 text-gray-800 px-6 py-20">
+      <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">
+        Practice Pak Studies
       </h1>
-      <div className="w-full max-w-md">
-        {years.length > 0 ? (
-          <>
-            <p className="text-lg text-gray-600 mb-6">
-              Choose a year to practice questions from that exam.
-            </p>
+      <p className="text-lg text-gray-600 text-center mb-12 max-w-3xl">
+        Select a year to practice past papers and refine your preparation.
+      </p>
+
+      {years.length > 0 ? (
+        <>
+          <h2 className="text-2xl font-semibold text-center mb-6">Select Year</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl">
             {years.map((year) => (
-              <button
+              <motion.div
                 key={year}
-                className="w-full mb-3 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-lg font-semibold"
+                whileHover={{ scale: 1.05 }}
+                className="h-48 flex flex-col justify-center items-center p-6 bg-white rounded-2xl shadow-lg transition duration-300 hover:bg-teal-100 cursor-pointer"
                 onClick={() => handleYearSelect(year)}
               >
-                {year} Past Paper
-              </button>
+                <h2 className="text-2xl font-semibold text-gray-800">{year}</h2>
+              </motion.div>
             ))}
-          </>
-        ) : (
-          <p className="text-lg text-gray-600 mb-6">Loading years...</p>
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <p className="text-lg text-gray-600">Loading years...</p>
+      )}
     </div>
   );
 };

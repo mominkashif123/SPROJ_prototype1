@@ -24,7 +24,7 @@ const PastPapersList = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6 pt-20">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-70 text-gray-800 px-6 pt-20">
       <h1 className="text-3xl font-bold text-center mb-6">
         Select a Past Paper
       </h1>

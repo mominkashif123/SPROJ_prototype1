@@ -25,122 +25,122 @@ const Navbar = ({ user, setUser }) => {
 
   return (
     <header className="bg-white">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-        {/* Logo */}
-        <div className="flex items-center gap-4">
-          <a href="/" className="flex items-center">
-            <img src={logo} alt="DadaCambridge Logo" className="w-10 h-auto" />
-            <span className="ml-2 text-xl font-bold text-gray-800 tracking-wide">
-              DadaCambridge
-            </span>
-          </a>
-        </div>
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex justify-between items-center">
+          
+          {/* Logo Section */}
+          <div className="flex items-center gap-4">
+            <a href="/" className="flex items-center">
+              <img src={logo} alt="Logo" className="w-10 h-auto" />
+              <span className="ml-2 text-xl font-bold text-gray-800">DadaCambridge</span>
+            </a>
+          </div>
 
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8">
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `text-sm font-medium ${isActive
-                ? "text-teal-500 border-b-2 border-teal-500"
-                : "text-gray-700 hover:text-teal-500"
-              }`
-            }
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/practice-online"
-            className={({ isActive }) =>
-              `text-sm font-medium ${isActive
-                ? "text-teal-500 border-b-2 border-teal-500"
-                : "text-gray-700 hover:text-teal-500"
-              }`
-            }
-          >
-            Practice Online
-          </NavLink>
-          <NavLink
-            to="/past-papers"
-            className={({ isActive }) =>
-              `text-sm font-medium ${isActive
-                ? "text-teal-500 border-b-2 border-teal-500"
-                : "text-gray-700 hover:text-teal-500"
-              }`
-            }
-          >
-            Yearly Past Papers
-          </NavLink>
-          <NavLink
-            to="/topical-papers"
-            className={({ isActive }) =>
-              `text-sm font-medium ${isActive
-                ? "text-teal-500 border-b-2 border-teal-500"
-                : "text-gray-700 hover:text-teal-500"
-              }`
-            }
-          >
-            Topical Papers
-          </NavLink>
-          <NavLink
-            to="/expected-exam"
-            className={({ isActive }) =>
-              `text-sm font-medium ${isActive
-                ? "text-teal-500 border-b-2 border-teal-500"
-                : "text-gray-700 hover:text-teal-500"
-              }`
-            }
-          >
-            Expected Exam
-          </NavLink>
-
-          {user ? (
-            <>
+          {/* Navigation Options - Only visible when logged in */}
+          {user && (
+            <div className="hidden lg:flex items-center gap-8">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  `text-sm font-medium ${
+                    isActive ? "text-teal-500 border-b-2 border-teal-500" : "text-gray-700 hover:text-teal-500"
+                  }`
+                }
+              >
+                Home
+              </NavLink>
+              <NavLink
+                to="/practice-online"
+                className={({ isActive }) =>
+                  `text-sm font-medium ${
+                    isActive ? "text-teal-500 border-b-2 border-teal-500" : "text-gray-700 hover:text-teal-500"
+                  }`
+                }
+              >
+                Practice Online
+              </NavLink>
+              <NavLink
+                to="/past-papers"
+                className={({ isActive }) =>
+                  `text-sm font-medium ${
+                    isActive ? "text-teal-500 border-b-2 border-teal-500" : "text-gray-700 hover:text-teal-500"
+                  }`
+                }
+              >
+                Yearly Past Papers
+              </NavLink>
+              <NavLink
+                to="/topical-papers"
+                className={({ isActive }) =>
+                  `text-sm font-medium ${
+                    isActive ? "text-teal-500 border-b-2 border-teal-500" : "text-gray-700 hover:text-teal-500"
+                  }`
+                }
+              >
+                Topical Papers
+              </NavLink>
+              <NavLink
+                to="/expected-exam"
+                className={({ isActive }) =>
+                  `text-sm font-medium ${
+                    isActive ? "text-teal-500 border-b-2 border-teal-500" : "text-gray-700 hover:text-teal-500"
+                  }`
+                }
+              >
+                Expected Exam
+              </NavLink>
               <NavLink
                 to="/profile"
                 className={({ isActive }) =>
-                  `text-sm font-medium ${isActive
-                    ? "text-teal-500 border-b-2 border-teal-500"
-                    : "text-gray-700 hover:text-teal-500"
+                  `text-sm font-medium ${
+                    isActive ? "text-teal-500 border-b-2 border-teal-500" : "text-gray-700 hover:text-teal-500"
                   }`
                 }
               >
                 Profile
               </NavLink>
+            </div>
+          )}
+
+          {/* Right Side - Login/Signup when not logged in, Logout when logged in */}
+          <div className="flex items-center gap-4">
+            {user ? (
               <button
                 onClick={handleLogout}
-                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
+                className="px-4 py-2 text-sm font-medium text-white bg-teal-500 rounded-lg shadow-sm hover:bg-teal-600 transition-colors"
               >
                 Logout
               </button>
-            </>
-          ) : (
-            <>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  `px-4 py-2 text-sm font-medium ${isActive
-                    ? "text-teal-500 border-b-2 border-teal-500"
-                    : "text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
-                  }`
-                }
-              >
-                Login
-              </NavLink>
-              <NavLink
-                to="/signup"
-                className={({ isActive }) =>
-                  `px-4 py-2 text-sm font-medium ${isActive
-                    ? "text-white bg-teal-500 rounded-lg border-b-2 border-teal-500"
-                    : "text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 transition-colors"
-                  }`
-                }
-              >
-                Signup
-              </NavLink>
-            </>
-          )}
-        </div>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    `px-4 py-2 text-sm font-medium ${
+                      isActive
+                        ? "text-teal-500 border-b-2 border-teal-500"
+                        : "text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+                    }`
+                  }
+                >
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/signup"
+                  className={({ isActive }) =>
+                    `px-4 py-2 text-sm font-medium ${
+                      isActive
+                        ? "text-white bg-teal-500 border-b-2 border-teal-500"
+                        : "text-white bg-teal-500 rounded-lg shadow-sm hover:bg-teal-600 transition-colors"
+                    }`
+                  }
+                >
+                  Signup
+                </NavLink>
+              </>
+            )}
+          </div>
+          </div>
 
         {/* Mobile Menu Toggle */}
         <button
