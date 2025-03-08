@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const PracticeChemistry = () => {
   const [year, setYear] = useState(null);
@@ -33,69 +34,93 @@ const PracticeChemistry = () => {
 
   const handleVariantSelect = (selectedVariant) => {
     setVariant(selectedVariant);
-    navigate(`/practice/chemistry/${year}/${session.toLowerCase()}/${selectedVariant.toLowerCase().replace(" ", "")}`);
+    navigate(
+      `/practice/chemistry/${year}/${session.toLowerCase()}/${selectedVariant.toLowerCase().replace(" ", "")}`
+    );
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6 pt-20">
-      <h1 className="text-3xl font-bold text-center mb-6">Practice Chemistry</h1>
-      <p className="text-lg text-gray-600 mb-6">Select options to practice Chemistry past papers.</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-70 text-gray-800 px-6 py-20">
+      <h1 className="text-4xl font-extrabold text-gray-900 mb-6 text-center">
+        Practice Chemistry
+      </h1>
+      <p className="text-lg text-gray-600 text-center mb-12 max-w-3xl">
+        Select options to practice Chemistry past papers.
+      </p>
 
-      <div className="w-full max-w-md">
-        {!year ? (
-          <>
-            <h2 className="text-xl font-semibold mb-4">Select Year</h2>
+      {!year ? (
+        <>
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Select Year
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-5xl">
             {years.map((year) => (
-              <button
+              <motion.div
                 key={year}
-                className="w-full mb-3 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-lg font-semibold"
+                whileHover={{ scale: 1.05 }}
+                className="h-40 flex flex-col justify-center items-center p-6 bg-white rounded-2xl shadow-lg transition duration-300 hover:bg-teal-100 cursor-pointer"
                 onClick={() => handleYearSelect(year)}
               >
-                {year}
-              </button>
+                <h2 className="text-2xl font-semibold text-gray-800">{year}</h2>
+              </motion.div>
             ))}
-          </>
-        ) : !session ? (
-          <>
-            <h2 className="text-xl font-semibold mb-4">Select Session</h2>
+          </div>
+        </>
+      ) : !session ? (
+        <>
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Select Session
+          </h2>
+          <div className="grid grid-cols-2 gap-6 w-full max-w-lg">
             {sessions.map((session) => (
-              <button
+              <motion.div
                 key={session}
-                className="w-full mb-3 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-lg font-semibold"
+                whileHover={{ scale: 1.05 }}
+                className="h-36 flex flex-col justify-center items-center p-6 bg-white rounded-2xl shadow-lg transition duration-300 hover:bg-teal-100 cursor-pointer"
                 onClick={() => handleSessionSelect(session)}
               >
-                {session}
-              </button>
+                <h2 className="text-xl font-semibold text-gray-800">{session}</h2>
+              </motion.div>
             ))}
-          </>
-        ) : !paperType ? (
-          <>
-            <h2 className="text-xl font-semibold mb-4">Select Paper Type</h2>
+          </div>
+        </>
+      ) : !paperType ? (
+        <>
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Select Paper Type
+          </h2>
+          <div className="grid grid-cols-1 gap-6 w-full max-w-lg">
             {paperTypes.map((type) => (
-              <button
+              <motion.div
                 key={type}
-                className="w-full mb-3 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-lg font-semibold"
+                whileHover={{ scale: 1.05 }}
+                className="h-36 flex flex-col justify-center items-center p-6 bg-white rounded-2xl shadow-lg transition duration-300 hover:bg-teal-100 cursor-pointer"
                 onClick={() => handlePaperTypeSelect(type)}
               >
-                {type}
-              </button>
+                <h2 className="text-xl font-semibold text-gray-800">{type}</h2>
+              </motion.div>
             ))}
-          </>
-        ) : !variant ? (
-          <>
-            <h2 className="text-xl font-semibold mb-4">Select Variant</h2>
+          </div>
+        </>
+      ) : !variant ? (
+        <>
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Select Variant
+          </h2>
+          <div className="grid grid-cols-2 gap-6 w-full max-w-lg">
             {variants.map((variant) => (
-              <button
+              <motion.div
                 key={variant}
-                className="w-full mb-3 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-lg font-semibold"
+                whileHover={{ scale: 1.05 }}
+                className="h-36 flex flex-col justify-center items-center p-6 bg-white rounded-2xl shadow-lg transition duration-300 hover:bg-teal-100 cursor-pointer"
                 onClick={() => handleVariantSelect(variant)}
               >
-                {variant}
-              </button>
+                <h2 className="text-xl font-semibold text-gray-800">{variant}</h2>
+              </motion.div>
             ))}
-          </>
-        ) : null}
-      </div>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };

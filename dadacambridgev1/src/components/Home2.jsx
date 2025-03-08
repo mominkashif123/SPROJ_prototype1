@@ -3,13 +3,13 @@ import frontimg from '../assets/front_img.jpg';
 
 const HomeGuest = ({ user }) => {
   return (
-    <div>
+    <div className="bg-[#f5f7f8]">
       {/* Hero Section */}
-      <div className="bg-white flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Left Content */}
         <div className="text-center lg:text-left lg:max-w-lg">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 leading-tight">
-            We Help to <span className="text-teal-400">Build</span> Your Dream
+            We Help to <span className="text-teal-400 text-4xl">Build</span> Your Dream
           </h1>
           <p className="mt-4 text-base sm:text-lg text-gray-600">
             Our platform provides you with access to past papers and personalized feedback
@@ -36,7 +36,7 @@ const HomeGuest = ({ user }) => {
       </div>
 
       {/* Featured Universities Section */}
-      <div className="bg-white py-12">
+      <div className="bg-[#f5f7f8] py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
             <img

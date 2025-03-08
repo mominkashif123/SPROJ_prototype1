@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import logo from "../assets/logo.png";
-
 const Login = ({ setUser }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
@@ -109,7 +107,7 @@ const Login = ({ setUser }) => {
   return (
     <div className="flex flex-col lg:flex-row h-screen">
       {/* Left Section */}
-      <div className="flex flex-col justify-center items-center w-full lg:w-1/2 bg-white px-6 sm:px-10 lg:px-16 py-10">
+      <div className="bg-[#f5f7f8] flex flex-col justify-center items-center w-full lg:w-1/2 bg-white px-6 sm:px-10 lg:px-16 py-10">
         {/* Logo */}
         {/* <div
           className="absolute top-4 left-4 cursor-pointer"

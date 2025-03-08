@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import Papa from "papaparse";
 import { checkSimilarity } from "../utils/nlpUtils";
 import axios from "axios";
+import { motion } from "framer-motion";
+import { FaUpload, FaCheckCircle, FaSpinner } from "react-icons/fa";
 
 const GEMINI_API_KEY = "AIzaSyATMkZy7NBJPP7O41F6II_qYPibxHltn4A";
 const GEMINI_API_URL =
@@ -144,82 +146,77 @@ const PracticePaper = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-6 pt-20">
-      <h1 className="text-3xl font-bold text-center mb-6">
+    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-teal-50 to-teal-70 px-6 py-20">
+      <motion.h1
+        className="text-4xl font-extrabold text-gray-900 mb-6 text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         {year} Exam Practice
-      </h1>
-      <p className="text-lg text-gray-600 mb-6">
-        Write your answer below using the textbox or upload an image of your
-        handwritten answer.
+      </motion.h1>
+      <p className="text-lg text-gray-700 text-center mb-8 max-w-2xl">
+        Answer the questions below and submit for grading. You can also upload a handwritten answer.
       </p>
-      <div className="w-full max-w-4xl">
+
+      <div className="w-full max-w-4xl space-y-8">
         {questions.map((q, index) => (
-          <div key={index} className="mb-6 p-6 bg-white shadow-lg rounded-lg">
-            <h2 className="text-xl font-semibold">{q.question}</h2>
+          <motion.div
+            key={index}
+            className="p-6 bg-[#f5f7f8] bg-opacity-90 shadow-xl rounded-xl backdrop-blur-lg border border-gray-200"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{q.question}</h2>
             <textarea
-              className="w-full p-3 mt-3 border border-gray-300 rounded-lg"
+              className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               rows={4}
               placeholder="Write your answer here..."
               value={answers[index] || ""}
               onChange={(e) => handleInputChange(index, e.target.value)}
             ></textarea>
-            <div className="mt-3">
-              <label className="block mb-1 font-medium">
-                Or Upload an Image:
+
+            {/* Button Row with Flexbox */}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+              {/* Upload Image Button (Left) */}
+              <label className="cursor-pointer bg-teal-500 text-white px-4 py-2 sm:px-3 sm:py-2 rounded-lg shadow-md hover:bg-teal-600 flex items-center gap-2 text-sm sm:text-xs">
+                <FaUpload />
+                Upload Image
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => console.log("Upload logic here")}
+                />
               </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => handleFileUpload(index, e)}
-                className="mb-2"
-              />
-              {uploadedImages[index] && (
-                <div>
-                  <img
-                    src={uploadedImages[index]}
-                    alt="Uploaded"
-                    style={{ maxWidth: "300px", marginBottom: "10px" }}
-                  />
-                  {ocrTexts[index] && (
-                    <div className="p-2 bg-gray-50 border border-gray-200 rounded">
-                      <strong>OCR Extracted Text:</strong>
-                      <textarea
-                        className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
-                        rows={3}
-                        value={ocrTexts[index]}
-                        onChange={(e) =>
-                          handleOcrTextChange(index, e.target.value)
-                        }
-                      ></textarea>
-                    </div>
-                  )}
-                </div>
-              )}
+
+              {/* Submit Answer Button (Right) */}
+              <button
+                className="px-6 py-3 sm:px-3 sm:py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 flex items-center gap-2 text-sm sm:text-xs"
+                onClick={() => gradeAnswer(index, answers[index] || "")}
+                disabled={loading[index]}
+              >
+                {loading[index] ? <FaSpinner className="animate-spin" /> : <FaCheckCircle />}
+                {loading[index] ? "Grading..." : "Submit Answer"}
+              </button>
             </div>
-            <button
-              className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              onClick={() =>
-                gradeAnswer(
-                  index,
-                  q.question,
-                  ocrTexts[index] || answers[index] || ""
-                )
-              }
-              disabled={loading[index]}
-            >
-              {loading[index] ? "Grading..." : "Submit Answer"}
-            </button>
-            {loading[index] && (
-              <div className="mt-2 text-gray-600 text-sm">
-                Evaluating your answer...
+            {uploadedImages[index] && (
+              <div className="mt-4">
+                <img
+                  src={uploadedImages[index]}
+                  alt="Uploaded"
+                  className="w-24 h-24 object-cover rounded-lg border"
+                />
               </div>
             )}
+
             {marks[index] !== undefined && !loading[index] && (
-              <p className="mt-3 text-green-600 font-bold">
+              <p className="mt-4 text-green-600 font-semibold">
                 Marks: {marks[index]} / {q.marks}
               </p>
             )}
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
