@@ -39,7 +39,7 @@ function Home() {
       </section>
 
       {/* Features Section */}
-      <section ref={featuresRef} className="bg-gradient-to-br from-teal-50 to-teal-70 py-24">
+      <section ref={featuresRef} className="bg-gradient-to-br from-teal-50 to-teal-80 py-24">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}

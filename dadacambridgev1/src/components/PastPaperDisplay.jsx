@@ -55,7 +55,7 @@ const PastPapersDisplay = () => {
   const uniquePaperNumbers = [...new Set(pastPapers.map((paper) => paper.paperNumber))];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-70 text-gray-900 px-8 py-20">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-80 text-gray-900 px-8 py-20">
       {/* Header */}
       <motion.h1
         className="text-4xl font-extrabold text-center mb-6 text-gray-800"

@@ -2,7 +2,7 @@ import React from "react";
 
 const ExpectedExam = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-100 text-gray-800 px-6 pt-20">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-80 text-gray-800 px-6 pt-20">
       {/* Heading Section */}
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
