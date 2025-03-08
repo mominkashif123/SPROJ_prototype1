@@ -18,8 +18,10 @@ import TopicalUploadForm from "./components/UploadTopical.jsx";
 import TopicalPastPapersSelection from "./components/TopicalSelection.jsx";
 import TopicalSubjectsList from "./components/TopicalSubjectsList.jsx";
 import TopicalTopicsList from "./components/TopicalTopicsList.jsx";
-import Practice2015 from "./components/PracticePaper.jsx";
-import PastPapersList from "./components/PastPapersList.jsx";
+import PracticePaper from "./components/PracticePaper.jsx";
+import MCQPractice from "./components/MCQPractice.jsx"; // Import MCQPractice page
+import PracticePakStudies from "./components/PracticePakStudies.jsx"; // Import PracticePakStudies page
+import PracticeChemistry from "./components/PracticeChemistry.jsx"; // Import PracticeChemistry page
 
 function App() {
   const [user, setUser] = useState(null);
@@ -88,16 +90,24 @@ function App() {
         />
         <Route
           path="/practice"
-          element={user ? <PastPapersList /> : <Navigate to="/" />}
+          element={user ? <PracticeOnline /> : <Navigate to="/" />}
         />
         <Route
-          path="/practice/:year"
-          element={user ? <Practice2015 /> : <Navigate to="/" />}
+          path="/practice/pakstudies"
+          element={user ? <PracticePakStudies /> : <Navigate to="/" />}
         />
-        {/* <Route
-          path="/topical-papers/display"
-          element={user ? <TopicalPapersDisplay /> : <Navigate to="/" />}
-        /> */}
+        <Route
+          path="/practice/pakstudies/:year"
+          element={user ? <PracticePaper /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/practice/chemistry"
+          element={user ? <PracticeChemistry /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/practice/chemistry/:year/:session/:variant"
+          element={user ? <MCQPractice /> : <Navigate to="/" />}
+        />
         <Route
           path="/upload"
           element={isAdmin ? <UploadForm /> : <Navigate to="/" />}
@@ -113,6 +123,10 @@ function App() {
         <Route
           path="/practice-online"
           element={user ? <PracticeOnline /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/mcq-practice"
+          element={user ? <MCQPractice /> : <Navigate to="/" />}
         />
         <Route
           path="/profile"
