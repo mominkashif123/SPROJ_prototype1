@@ -12,7 +12,7 @@ module.exports = {
         dark: '#111827', // Dark color for navbar or backgrounds
       },
       fontFamily: {
-        sans: ['Inter', 'sans-serif'], // Custom font family for a professional look
+        sans: ['Monserrat', 'sans-serif'], // Custom font family for a professional look
       },
       spacing: {
         18: '4.5rem', // Custom spacing if needed for padding/margin

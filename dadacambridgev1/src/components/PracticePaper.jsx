@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Papa from "papaparse";
-import { loadNLPModel, checkSimilarity } from "../utils/nlpUtils"; // ✅ Load model before checking similarity
+import { checkSimilarity } from "../utils/nlpUtils";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { FaUpload, FaCheckCircle, FaSpinner } from "react-icons/fa";
 
 const Practice = () => {
     const { year } = useParams(); 
@@ -87,89 +90,82 @@ const Practice = () => {
         const sentenceCount = sentences.length;
         console.log(`📝 User Sentence Count: ${sentenceCount} (Required: ${maxMarks})`);
 
-        // ✅ Check similarity for each user sentence against marking scheme
-        let matchedSentences = 0;
-        let matchedSimilarities = [];
+  return (
+    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-teal-50 to-teal-70 px-6 py-20">
+      <motion.h1
+        className="text-4xl font-extrabold text-gray-900 mb-6 text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {year} Exam Practice
+      </motion.h1>
+      <p className="text-lg text-gray-700 text-center mb-8 max-w-2xl">
+        Answer the questions below and submit for grading. You can also upload a handwritten answer.
+      </p>
 
-        for (let sentence of sentences) {
-            let bestMatchScore = 0;
+      <div className="w-full max-w-4xl space-y-8">
+        {questions.map((q, index) => (
+          <motion.div
+            key={index}
+            className="p-6 bg-[#f5f7f8] bg-opacity-90 shadow-xl rounded-xl backdrop-blur-lg border border-gray-200"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{q.question}</h2>
+            <textarea
+              className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              rows={4}
+              placeholder="Write your answer here..."
+              value={answers[index] || ""}
+              onChange={(e) => handleInputChange(index, e.target.value)}
+            ></textarea>
 
-            for (let correctSentence of answerPoints) {
-                const { similarity } = await checkSimilarity(sentence, [correctSentence]);
+            {/* Button Row with Flexbox */}
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
+              {/* Upload Image Button (Left) */}
+              <label className="cursor-pointer bg-teal-500 text-white px-4 py-2 sm:px-3 sm:py-2 rounded-lg shadow-md hover:bg-teal-600 flex items-center gap-2 text-sm sm:text-xs">
+                <FaUpload />
+                Upload Image
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => console.log("Upload logic here")}
+                />
+              </label>
 
-                if (similarity > bestMatchScore) {
-                    bestMatchScore = similarity;
-                }
-            }
-
-            console.log(`🔍 User Sentence: "${sentence}"`);
-            console.log(`🔹 Best Matched Score: ${bestMatchScore}`);
-
-            // ✅ Adjusted Thresholds for Partial Marks
-            if (bestMatchScore >= 0.65) {  // Strong Match
-                matchedSentences++;
-                matchedSimilarities.push(bestMatchScore);
-            } else if (bestMatchScore >= 0.45) {  // Partial Match
-                matchedSentences += 0.5; // Give half credit
-                matchedSimilarities.push(bestMatchScore);
-            }
-        }
-
-        console.log(`✅ Matched Sentences: ${matchedSentences}`);
-
-        // **🚨 Must Match At Least 3 Correct Sentences**
-        if (matchedSentences < maxMarks) {
-            console.warn(`❌ Not enough correct sentences! Only ${matchedSentences} matched.`);
-            score = Math.ceil((matchedSentences / maxMarks) * maxMarks); // Partial marks based on correct points
-        } else {
-            score = maxMarks; // ✅ Full marks if 3+ correct sentences are found
-        }
-
-        console.log(`🎯 Final Score: ${score} / ${maxMarks}`);
-        setMarks({ ...marks, [index]: score });
-        setLoading(prev => ({ ...prev, [index]: false })); // Stop loading
-    };
-
-    return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 px-6 pt-20">
-            <h1 className="text-3xl font-bold text-center mb-6">{year} Exam Practice</h1>
-            <p className="text-lg text-gray-600 mb-6">Write your answers below and get automatic grading.</p>
-
-            {/* Show Loading Indicator for NLP Model */}
-            {!modelLoaded && (
-                <div className="text-blue-600 font-semibold mb-4">🔄 Loading AI Model... Please wait</div>
+              {/* Submit Answer Button (Right) */}
+              <button
+                className="px-6 py-3 sm:px-3 sm:py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 flex items-center gap-2 text-sm sm:text-xs"
+                onClick={() => gradeAnswer(index, answers[index] || "")}
+                disabled={loading[index]}
+              >
+                {loading[index] ? <FaSpinner className="animate-spin" /> : <FaCheckCircle />}
+                {loading[index] ? "Grading..." : "Submit Answer"}
+              </button>
+            </div>
+            {uploadedImages[index] && (
+              <div className="mt-4">
+                <img
+                  src={uploadedImages[index]}
+                  alt="Uploaded"
+                  className="w-24 h-24 object-cover rounded-lg border"
+                />
+              </div>
             )}
 
-            <div className="w-full max-w-4xl">
-                {questions.map((q, index) => (
-                    <div key={index} className="mb-6 p-6 bg-white shadow-lg rounded-lg">
-                        <h2 className="text-xl font-semibold">{q.question}</h2>
-                        <textarea
-                            className="w-full p-3 mt-3 border border-gray-300 rounded-lg"
-                            rows="4"
-                            placeholder="Write your answer here..."
-                            value={answers[index] || ""}
-                            onChange={(e) => handleInputChange(index, e.target.value)}
-                            disabled={!modelLoaded} // ✅ Disable input until model loads
-                        ></textarea>
-                        <button
-                            className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                            onClick={() => gradeAnswer(index, q.question, answers[index] || "")}
-                            disabled={loading[index] || !modelLoaded} // ✅ Disable until model is ready
-                        >
-                            {loading[index] ? "Grading..." : "Submit Answer"}
-                        </button>
-                        {loading[index] && (
-                            <div className="mt-2 text-gray-600 text-sm">🔄 Evaluating your answer...</div>
-                        )}
-                        {marks[index] !== undefined && !loading[index] && (
-                            <p className="mt-3 text-green-600 font-bold">Marks: {marks[index]} / {q.marks}</p>
-                        )}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
+            {marks[index] !== undefined && !loading[index] && (
+              <p className="mt-4 text-green-600 font-semibold">
+                Marks: {marks[index]} / {q.marks}
+              </p>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Practice;

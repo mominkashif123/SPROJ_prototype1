@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import Player from 'lottie-react';
-import loadingAnimation from '../assets/loading.json';
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { motion } from "framer-motion";
+import Player from "lottie-react";
+import loadingAnimation from "../assets/loading.json";
 
 const SubjectsList = () => {
   const [subjects, setSubjects] = useState([]);
@@ -11,14 +12,15 @@ const SubjectsList = () => {
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
-  const level = queryParams.get('level'); 
+  const level = queryParams.get("level");
 
   useEffect(() => {
     const fetchSubjects = async () => {
       setLoading(true);
       try {
-        // const response = await axios.get(`http://localhost:4000/api/past-papers/subjects/${level}`);
-        const response = await axios.get(`https://sproj-prototype1-1.onrender.com/api/past-papers/subjects/${level}`);
+        const response = await axios.get(
+          `https://sproj-prototype1-1.onrender.com/api/past-papers/subjects/${level}`
+        );
         setSubjects(response.data);
       } catch (error) {
         console.error("Failed to fetch subjects", error);
@@ -31,28 +33,51 @@ const SubjectsList = () => {
   }, [level]);
 
   const handleSubjectClick = (subject) => {
-    navigate(`/past-papers/display?level=${encodeURIComponent(level)}&subject=${encodeURIComponent(subject)}`);
+    navigate(
+      `/past-papers/display?level=${encodeURIComponent(level)}&subject=${encodeURIComponent(subject)}`
+    );
   };
 
   return (
-    <div className="p-6 flex flex-col items-center">
-      <h1 className="text-2xl font-bold mb-6">Subjects for {level}</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-teal-50 to-teal-70 text-gray-900 px-6 py-20">
+      {/* Header */}
+      <motion.h1
+        className="text-4xl font-extrabold text-center mb-6 text-gray-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        Subjects for {level}
+      </motion.h1>
+
       {loading ? (
-        <Player src={loadingAnimation} className="w-40 h-40" loop autoplay />
+        <div className="flex flex-col items-center">
+          <Player src={loadingAnimation} className="w-40 h-40" loop autoplay />
+          <p className="text-gray-700 mt-4">Fetching subjects...</p>
+        </div>
       ) : subjects.length > 0 ? (
-        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <motion.div
+          className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 w-full max-w-6xl mt-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
           {subjects.map((subject, index) => (
-            <div
+            <motion.div
               key={index}
               onClick={() => handleSubjectClick(subject)}
-              className="border border-gray-300 p-4 w-full h-32 flex justify-center items-center shadow-lg rounded-lg bg-white hover:bg-gray-100 cursor-pointer"
+              className="relative group flex items-center justify-center bg-white rounded-2xl shadow-md h-32 cursor-pointer transition-all duration-300 hover:shadow-lg"
+              whileHover={{ scale: 1.02 }}
             >
-              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-center">{subject}</h2>
-            </div>
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 z-10 text-center">
+                {subject}
+              </h2>
+              <div className="absolute inset-0 bg-teal-500 opacity-0 group-hover:opacity-20 transition-opacity"></div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       ) : (
-        <p className="text-gray-600 mt-6">No subjects found for {level}. Stay tuned!</p>
+        <p className="text-gray-600 mt-6 text-lg">No subjects found for {level}. Stay tuned!</p>
       )}
     </div>
   );
