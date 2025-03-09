@@ -52,9 +52,17 @@ const PracticePaper = () => {
 
   const gradeAnswer = async (index, questionText, userAnswer) => {
     setLoading((prev) => ({ ...prev, [index]: true }));
-    let score = 0;
-    const maxMarks = questions[index].marks;
+
+    // if (!questions[index] || !questions[index].answer) {
+    //   // Ensure question exists
+    //   console.error(`Error: Question at index ${index} is undefined.`);
+    //   setLoading((prev) => ({ ...prev, [index]: false }));
+    //   return;
+    // }
+
     const correctAnswer = questions[index].answer;
+    const maxMarks = questions[index].marks;
+    let score = 0;
 
     if (!correctAnswer) {
       setLoading((prev) => ({ ...prev, [index]: false }));
@@ -65,10 +73,13 @@ const PracticePaper = () => {
       .split("\n")
       .map((point) => point.trim())
       .filter((point) => point.length > 0);
+
     const sentences = userAnswer
-      .split(/[.!?]/)
-      .map((sentence) => sentence.trim())
-      .filter((sentence) => sentence.length > 5);
+      ? userAnswer
+          .split(/[.!?]/)
+          .map((sentence) => sentence.trim())
+          .filter((sentence) => sentence.length > 5)
+      : [];
 
     let matchedSentences = 0;
     for (let sentence of sentences) {
@@ -91,7 +102,8 @@ const PracticePaper = () => {
       matchedSentences < maxMarks
         ? Math.ceil((matchedSentences / maxMarks) * maxMarks)
         : maxMarks;
-    setMarks({ ...marks, [index]: score });
+
+    setMarks((prev) => ({ ...prev, [index]: score }));
     setLoading((prev) => ({ ...prev, [index]: false }));
   };
 
@@ -156,7 +168,8 @@ const PracticePaper = () => {
         {year} Exam Practice
       </motion.h1>
       <p className="text-lg text-gray-700 text-center mb-8 max-w-2xl">
-        Answer the questions below and submit for grading. You can also upload a handwritten answer.
+        Answer the questions below and submit for grading. You can also upload a
+        handwritten answer.
       </p>
 
       <div className="w-full max-w-4xl space-y-8">
@@ -168,7 +181,9 @@ const PracticePaper = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
           >
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">{q.question}</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              {q.question}
+            </h2>
             <textarea
               className="w-full p-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               rows={4}
@@ -187,17 +202,27 @@ const PracticePaper = () => {
                   type="file"
                   accept="image/*"
                   className="hidden"
-                  onChange={(e) => console.log("Upload logic here")}
+                  onChange={(e) => handleFileUpload(index, e)}
                 />
               </label>
 
               {/* Submit Answer Button (Right) */}
               <button
                 className="px-6 py-3 sm:px-3 sm:py-2 bg-teal-600 text-white font-semibold rounded-lg shadow-md hover:bg-teal-700 flex items-center gap-2 text-sm sm:text-xs"
-                onClick={() => gradeAnswer(index, answers[index] || "")}
+                onClick={() =>
+                  gradeAnswer(
+                    index,
+                    q.question,
+                    ocrTexts[index] || answers[index] || ""
+                  )
+                }
                 disabled={loading[index]}
               >
-                {loading[index] ? <FaSpinner className="animate-spin" /> : <FaCheckCircle />}
+                {loading[index] ? (
+                  <FaSpinner className="animate-spin" />
+                ) : (
+                  <FaCheckCircle />
+                )}
                 {loading[index] ? "Grading..." : "Submit Answer"}
               </button>
             </div>
@@ -208,9 +233,21 @@ const PracticePaper = () => {
                   alt="Uploaded"
                   className="w-24 h-24 object-cover rounded-lg border"
                 />
+                {ocrTexts[index] && (
+                  <div className="p-2 bg-gray-50 border border-gray-200 rounded">
+                    <strong>OCR Extracted Text:</strong>
+                    <textarea
+                      className="w-full p-2 mt-1 border border-gray-300 rounded-lg"
+                      rows={3}
+                      value={ocrTexts[index]}
+                      onChange={(e) =>
+                        handleOcrTextChange(index, e.target.value)
+                      }
+                    ></textarea>
+                  </div>
+                )}
               </div>
             )}
-
             {marks[index] !== undefined && !loading[index] && (
               <p className="mt-4 text-green-600 font-semibold">
                 Marks: {marks[index]} / {q.marks}
