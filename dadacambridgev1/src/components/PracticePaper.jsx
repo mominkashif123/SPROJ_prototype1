@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Papa from "papaparse";
-import { checkSimilarity } from "../utils/nlpUtils";
+import { loadNLPModel, checkSimilarity } from "../utils/nlpUtils";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { FaUpload, FaCheckCircle, FaSpinner } from "react-icons/fa";
@@ -166,6 +166,6 @@ const Practice = () => {
       </div>
     </div>
   );
-};
+}};
 
 export default Practice;
