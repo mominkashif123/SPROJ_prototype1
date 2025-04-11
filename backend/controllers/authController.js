@@ -248,7 +248,7 @@ const resetPassword = async (req, res) => {
 
 const changePassword = async (req, res) => {
   const { username, oldPassword, newPassword } = req.body;
-
+  console.log(username,oldPassword)
   try {
     if (!username || !oldPassword || !newPassword) {
       return res.status(400).json({ message: "All fields are required." });
@@ -266,7 +266,7 @@ const changePassword = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Old password is incorrect." });
     }
-
+    console.log("ahead")
     // Hash and update the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
