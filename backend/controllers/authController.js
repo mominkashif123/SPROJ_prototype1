@@ -124,7 +124,7 @@ const verifyOtp = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    console.log(email,password)
     const user = await User.findOne({ email });
 
     // console.log("The email is:", user.email);
