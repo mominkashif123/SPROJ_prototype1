@@ -37,7 +37,7 @@ const SignupScreen = ({ navigation }) => {
       );
       setMessage('OTP Verified!');
       setTimeout(() => {
-        navigation.navigate('Login'); // Navigate back to Login after OTP verification
+        navigation.navigate('Login'); 
       }, 2000);
     } catch (error) {
       setMessage(error.response?.data?.message || 'Error verifying OTP');
@@ -90,8 +90,8 @@ const SignupScreen = ({ navigation }) => {
 
       {/* Login Button */}
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: '#f5a623' }]} // Adjust the color for the login button
-        onPress={() => navigation.navigate('Login')}  // Navigate to the Login page
+        style={[styles.button, { backgroundColor: '#f5a623' }]} 
+        onPress={() => navigation.navigate('Login')}  
       >
         <Text style={styles.buttonText}>Already have an account? Login</Text>
       </TouchableOpacity>
