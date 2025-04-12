@@ -12,7 +12,6 @@ import { jwtDecode } from 'jwt-decode';
 import { Ionicons } from '@expo/vector-icons';
 
 const LoginScreen = ({ setUser, navigation }) => {
-  // const {setUser} = useUser(); // Use the UserContext to set user data
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [message, setMessage] = useState('');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
@@ -89,11 +88,11 @@ const LoginScreen = ({ setUser, navigation }) => {
   };
 
   const handleBackToLogin = () => {
-    setShowForgotPassword(false);  // To go back to the login page
-    setMessage('');  // Reset the message
-    setOtpSent(false);  // Reset OTP sent state
-    setOtpVerified(false);  // Reset OTP verified state
-    setNewPassword('');  // Reset new password input
+    setShowForgotPassword(false); 
+    setMessage('');  
+    setOtpSent(false);  
+    setOtpVerified(false);  
+    setNewPassword(''); 
   };
 
   return (

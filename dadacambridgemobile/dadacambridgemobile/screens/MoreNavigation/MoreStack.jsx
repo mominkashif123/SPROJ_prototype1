@@ -6,8 +6,6 @@ import ChangePasswordScreen from "../ChangePass";
 const Stack = createStackNavigator();
 
 const MoreStack = ({ user, setUser, navigation }) => {
-  // console.log('MoreStack received user:', user); // Debug log
-  // console.log('MoreStack has setUser:', !!setUser); // Debug log
   
   return (
     <Stack.Navigator initialRouteName="MoreScreen">

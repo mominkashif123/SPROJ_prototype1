@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  ActivityIndicator,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Asset } from "expo-asset";
-import * as FileSystem from "expo-file-system";
+import pkstudiesData from "../assets/pkstudies.json";
 
-// Helper function to parse CSV string manually
-const parseCSV = (csvText) => {
-  const rows = csvText.split("\n");
-  const headers = rows[0].split(",");  // Assuming the first row is the header
-  const data = rows.slice(1);
-
-  return data.map((row) => {
-    const values = row.split(",");
-    const obj = {};
-    headers.forEach((header, index) => {
-      obj[header.trim()] = values[index].trim();
-    });
-    return obj;
-  });
-};
+const DESTINATION_SCREEN = "PakStudiesYear"; 
 
 const PracticePakStudiesScreen = () => {
   const [years, setYears] = useState([]);
@@ -26,83 +19,98 @@ const PracticePakStudiesScreen = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
-    const loadCSV = async () => {
-      try {
-        // Load the asset (CSV file)
-        const asset = Asset.fromModule(require('../assets/extracted_questions_pkhist.csv'));
-        await asset.downloadAsync(); // This is necessary to load the asset from the bundle
-        
-        // Read the file contents as a string
-        const csvFile = await FileSystem.readAsStringAsync(asset.localUri); // Get the URI for the file
+    const extractYears = () => {
+      const allYears = pkstudiesData
+        .map((item) => parseInt(item.Year, 10))
+        .filter((year) => year >= 2015 && year <= 2024);
 
-        // Parse the CSV data
-        const parsedData = parseCSV(csvFile);
-
-        // Extract years from the CSV data and filter them
-        const allYears = parsedData
-          .map((row) => parseInt(row.Year, 10)) // Convert to numbers
-          .filter((year) => year >= 2015 && year <= 2024); // Ensure valid years
-
-        // Remove duplicates and sort in descending order
-        const uniqueYears = [...new Set(allYears)];
-        uniqueYears.sort((a, b) => b - a);
-
-        // Set the years to state
-        setYears(uniqueYears);
-      } catch (error) {
-        console.error("Error loading CSV:", error);
-      } finally {
-        setLoading(false);
-      }
+      const uniqueYears = [...new Set(allYears)].sort((a, b) => b - a);
+      setYears(uniqueYears);
+      setLoading(false);
     };
 
-    loadCSV();
+    extractYears();
   }, []);
 
-  const handleYearSelect = (selectedYear) => {
-    navigation.navigate(`/practice/pakstudies/${selectedYear}`);
+  const handleYearSelect = (year) => {
+    navigation.navigate(DESTINATION_SCREEN, { year });
   };
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color="#00ff00" />
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#14b8a6" />
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: "#f0f4f8" }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold", textAlign: "center", marginBottom: 20 }}>
-        Practice Pak Studies
-      </Text>
-      <Text style={{ fontSize: 16, textAlign: "center", marginBottom: 20 }}>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.header}>Practice Pak Studies</Text>
+      <Text style={styles.subHeader}>
         Select a year to practice past papers and refine your preparation.
       </Text>
-      <ScrollView contentContainerStyle={{ alignItems: "center" }}>
-        {years.length > 0 ? (
-          years.map((year) => (
-            <TouchableOpacity
-              key={year}
-              style={{
-                backgroundColor: "#00bcd4",
-                padding: 15,
-                marginBottom: 10,
-                borderRadius: 10,
-                width: "90%",
-                alignItems: "center",
-              }}
-              onPress={() => handleYearSelect(year)}
-            >
-              <Text style={{ color: "white", fontSize: 18 }}>{year}</Text>
-            </TouchableOpacity>
-          ))
-        ) : (
-          <Text>No years available</Text>
-        )}
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {years.map((year) => (
+          <TouchableOpacity
+            key={year}
+            style={styles.card}
+            onPress={() => handleYearSelect(year)}
+          >
+            <Text style={styles.cardText}>{year}</Text>
+          </TouchableOpacity>
+        ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#f0fdf4",
+    padding: 20,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  header: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#0f172a",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  subHeader: {
+    fontSize: 16,
+    color: "#475569",
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  scrollContainer: {
+    alignItems: "center",
+    paddingBottom: 30,
+  },
+  card: {
+    width: "90%",
+    backgroundColor: "#14b8a6",
+    paddingVertical: 18,
+    borderRadius: 16,
+    marginBottom: 12,
+    alignItems: "center",
+    elevation: 4, // Android shadow
+    shadowColor: "#000", // iOS shadow
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  cardText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#ffffff",
+  },
+});
 
 export default PracticePakStudiesScreen;

@@ -12,7 +12,6 @@ import MoreStack from './MoreNavigation/MoreStack';
 const Tab = createMaterialTopTabNavigator();
 
 export default function TabNavigator({ user, setUser }) {
-  // console.log('TabNavigator received user:', user); // Debug log to verify user prop
   
   return (
     <Tab.Navigator

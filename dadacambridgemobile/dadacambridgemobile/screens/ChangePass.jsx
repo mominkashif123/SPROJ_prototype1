@@ -3,14 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import axios from 'axios';
 
 const ChangePasswordScreen = ({ route }) => {
-  const { username } = route.params; // Retrieve the username passed from the More screen
+  const { username } = route.params; 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
-  // console.log('Username:', username); // Debugging line to check the username
 
   const handleChangePassword = async () => {
-    // console.log('Sending:', { username, currentPassword, newPassword });
     try {
       const response = await axios.post(
         'https://sproj-prototype1-1.onrender.com/api/change-password',

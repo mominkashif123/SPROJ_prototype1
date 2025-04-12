@@ -4,6 +4,7 @@ import PracticeOnline from "../PracticeOnline";
 import PracticePakStudies from "../PracticePakStudies";
 import PracticeChemistry from "../PracticeChemistry";
 import MCQPracticeScreen from "../MCQpractice";
+import PracticePaperScreen from "../PakSolve";
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,11 @@ const PracticeStack = () => {
         name="MCQpractice"
         component={MCQPracticeScreen}
         options={{ title: "MCQ Practice" }}
+      />
+      <Stack.Screen
+        name="PakStudiesYear"
+        component={PracticePaperScreen}
+        options={{ title: "Pak Studies Year" }}
       />
     </Stack.Navigator>
   );

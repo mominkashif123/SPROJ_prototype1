@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import TopicalPastPapersSelection from '../TopicalSelection'; // Adjust the import path if necessary
-import TopicalSubjectsList from '../TopicalSubjectsList'; // Adjust the import path if necessary
-import TopicalTopicsList from '../TopicalTopicsList'; // Adjust the import path if necessary
+import TopicalPastPapersSelection from '../TopicalSelection'; 
+import TopicalSubjectsList from '../TopicalSubjectsList'; 
+import TopicalTopicsList from '../TopicalTopicsList'; 
 
 const Stack = createStackNavigator();
 

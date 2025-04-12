@@ -17,7 +17,8 @@ const transporter = nodemailer.createTransport({
 
 const sendOtp = async (email, otp) => {
   const mailOptions = {
-    from: "saad.khilji0@gmail.com",
+    // from: "saad.khilji0@gmail.com",
+    from: "momin.kashif81@gmail.com",
     to: email,
     subject: "Your OTP Code",
     text: `Your OTP code is ${otp}. It expires in 10 minutes.`,
@@ -124,7 +125,7 @@ const verifyOtp = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    console.log(email, password)
     const user = await User.findOne({ email });
 
     // console.log("The email is:", user.email);
@@ -247,7 +248,7 @@ const resetPassword = async (req, res) => {
 
 const changePassword = async (req, res) => {
   const { username, oldPassword, newPassword } = req.body;
-
+  console.log(username,oldPassword)
   try {
     if (!username || !oldPassword || !newPassword) {
       return res.status(400).json({ message: "All fields are required." });
@@ -265,7 +266,7 @@ const changePassword = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ message: "Old password is incorrect." });
     }
-
+    console.log("ahead")
     // Hash and update the new password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(newPassword, salt);
