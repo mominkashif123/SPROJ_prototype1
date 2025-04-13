@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 
@@ -7,6 +7,7 @@ const Navbar = ({ user, setUser }) => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const menuRef = useRef(null);
 
   const handleLogout = () => {
     sessionStorage.removeItem("token");
@@ -21,15 +22,29 @@ const Navbar = ({ user, setUser }) => {
     }, 2000);
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <header className="bg-white z-50 shadow-sm">
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-4 relative">
+    <header className="bg-white z-50 shadow-sm sticky top-0">
+      <nav className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-8 py-3 md:py-4 relative">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center">
             <a href="/" className="flex items-center">
-              <img src={logo} alt="Logo" className="w-10 h-auto" />
-              <span className="ml-2 text-xl font-bold text-gray-800 text-nowrap sm:text-xl text-sm max-[400px]:text-base">
+              <img src={logo} alt="Logo" className="w-8 h-auto sm:w-10" />
+              <span className="ml-1 sm:ml-2 text-base sm:text-lg md:text-xl font-bold text-gray-800 truncate">
                 DadaCambridge
               </span>
             </a>
@@ -37,7 +52,7 @@ const Navbar = ({ user, setUser }) => {
 
           {/* Desktop Nav */}
           {user && (
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden lg:flex items-center space-x-4 xl:space-x-8">
               <NavLink to="/" className={({ isActive }) => isActive ? "text-teal-500 border-b-2 border-teal-500 text-sm font-medium" : "text-gray-700 hover:text-teal-500 text-sm font-medium"}>
                 Home
               </NavLink>
@@ -66,11 +81,11 @@ const Navbar = ({ user, setUser }) => {
           )}
 
           {/* Right side buttons */}
-          <div className="flex items-center gap-4 lg:gap-2">
+          <div className="flex items-center">
             {!user ? (
-              <>
+              <div className="flex items-center space-x-2 sm:space-x-4">
                 <NavLink to="/login" className={({ isActive }) =>
-                  `px-3 py-1.5 text-sm font-medium max-[400px]:px-2 max-[400px]:py-1 ${
+                  `px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-medium ${
                     isActive
                       ? "text-teal-500 border-b-2 border-teal-500"
                       : "text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
@@ -79,30 +94,31 @@ const Navbar = ({ user, setUser }) => {
                   Login
                 </NavLink>
                 <NavLink to="/signup" className={({ isActive }) =>
-                  `px-3 py-1.5 text-sm font-medium max-[400px]:px-2 max-[400px]:py-1 ${
+                  `px-2 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-sm font-medium ${
                     isActive
-                      ? "text-white bg-teal-500 border-b-2 border-teal-500"
+                      ? "text-white bg-teal-600 rounded-lg"
                       : "text-white bg-teal-500 rounded-lg shadow-sm hover:bg-teal-600 transition-colors"
                   }`
                 }>
                   Signup
                 </NavLink>
-              </>
+              </div>
             ) : (
               // Mobile menu toggle (hamburger)
-              <div className="relative block lg:hidden">
+              <div ref={menuRef} className="relative block lg:hidden">
                 <button
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   className="p-2 rounded-md hover:bg-gray-200 focus:outline-none"
+                  aria-label="Menu toggle"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 sm:h-6 sm:w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                   </svg>
                 </button>
 
                 {/* Mobile dropdown menu */}
                 {isMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-56 bg-white shadow-lg rounded-lg p-4 z-50">
+                  <div className="absolute top-full right-0 mt-2 w-48 sm:w-56 bg-white shadow-lg rounded-lg p-2 z-50 border border-gray-100">
                     <NavLink to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg" onClick={() => setIsMenuOpen(false)}>
                       Home
                     </NavLink>
@@ -131,6 +147,15 @@ const Navbar = ({ user, setUser }) => {
           </div>
         </div>
       </nav>
+
+      {/* Logout notification modal */}
+      {isModalVisible && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <p className="text-center">{message}</p>
+          </div>
+        </div>
+      )}
     </header>
   );
 };
