@@ -13,12 +13,12 @@ const Profile = ({ user, setUser }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteInput, setDeleteInput] = useState("");
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePicture(URL.createObjectURL(file));
-    }
-  };
+  // const handleFileChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     setProfilePicture(URL.createObjectURL(file));
+  //   }
+  // };
 
   const handlePasswordChange = async () => {
     try {
@@ -47,7 +47,7 @@ const Profile = ({ user, setUser }) => {
       >
         <h1 className="text-4xl font-extrabold text-gray-800 mb-6">Profile</h1>
 
-        <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-300 mx-auto border-4 border-teal-500 shadow-lg mb-4">
+        {/* <div className="relative w-32 h-32 rounded-full overflow-hidden bg-gray-300 mx-auto border-4 border-teal-500 shadow-lg mb-4">
           <img
             src={profilePicture || "https://via.placeholder.com/150"}
             alt="Profile"
@@ -57,7 +57,7 @@ const Profile = ({ user, setUser }) => {
         <label className="cursor-pointer flex justify-center items-center gap-2 text-teal-600 hover:text-teal-500">
           <FaUpload size={20} />
           <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" />
-        </label>
+        </label> */}
 
         <div className="mt-8 text-lg">
           <p className="flex items-center justify-center gap-2 text-gray-600"><FaUserCircle /> {user.username}</p>
