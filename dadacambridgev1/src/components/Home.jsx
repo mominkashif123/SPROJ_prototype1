@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
-import { FaFileAlt, FaClipboardCheck, FaLaptopCode, FaGraduationCap } from 'react-icons/fa';
+import { FaFileAlt, FaClipboardCheck, FaLaptopCode,FaLightbulb } from 'react-icons/fa';
 
 function Home() {
   const featuresRef = useRef(null); // Create a reference for Features Section
@@ -13,7 +13,7 @@ function Home() {
     <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center min-h-screen text-center relative px-6 sm:px-12">
-        <div className="absolute inset-0 bg-gradient-to-b from-teal-400 via-teal-300 to-transparent opacity-50"></div>
+        <div className="absolute pt-5 inset-0 bg-gradient-to-b from-teal-400 via-teal-300 to-transparent opacity-50"></div>
         <div className="relative z-10 max-w-4xl">
           <h1 className="text-5xl md:text-6xl font-extrabold text-gray-900 leading-tight">
             Tired of Searching for Practice Exams?
@@ -115,7 +115,7 @@ function Home() {
             whileHover={{ scale: 1.05 }}
             className="flex items-center bg-white shadow-md rounded-[25px] p-6 space-x-6"
           >
-            <FaGraduationCap className="text-teal-500 text-5xl" />
+            <FaLightbulb className="text-teal-500 text-5xl" />
             <div>
               <h3 className="text-2xl font-semibold text-gray-900">Expected Exams</h3>
               <p className="text-gray-600">

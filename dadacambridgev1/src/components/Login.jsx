@@ -155,10 +155,10 @@ const Login = ({ setUser }) => {
                   required
                 />
                 <div className="flex flex-col sm:flex-row items-center justify-between">
-                  <label className="text-sm text-gray-600 flex items-center mb-2 sm:mb-0">
+                  {/* <label className="text-sm text-gray-600 flex items-center mb-2 sm:mb-0">
                     <input type="checkbox" className="mr-2" /> Remember for 30
                     days
-                  </label>
+                  </label> */}
                   <button
                     type="button"
                     className="text-sm text-teal-500 hover:underline"

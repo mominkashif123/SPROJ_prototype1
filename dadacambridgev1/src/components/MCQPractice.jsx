@@ -158,7 +158,7 @@ const MCQPractice = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            🎯 Your Score: {score} / 40
+            Your Score: {score} / 40
           </motion.div>
         )}
       </div>

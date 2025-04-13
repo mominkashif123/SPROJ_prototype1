@@ -26,7 +26,7 @@ const HomeGuest = ({ user }) => {
         </div>
 
         {/* Right Graphic */}
-        <div className="relative w-full lg:w-1/2 mt-8 lg:mt-0">
+        <div className="hidden lg:block relative w-full lg:w-1/2 mt-8 lg:mt-0">
           <img
             src={frontimg}
             alt="img"
