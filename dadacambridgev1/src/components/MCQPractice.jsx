@@ -9,6 +9,8 @@ const MCQPractice = () => {
   const [correctAnswers, setCorrectAnswers] = useState({});
   const [graded, setGraded] = useState(false);
   const [score, setScore] = useState(0);
+  const [pdfMap, setPdfMap] = useState({});
+  const [pdfUrl, setPdfUrl] = useState(null);
 
   useEffect(() => {
     fetch("/mcq_answers.csv")
@@ -38,6 +40,19 @@ const MCQPractice = () => {
       });
   }, [year, session, variant]);
 
+  useEffect(() => {
+    fetch("/pdfLinks.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setPdfMap(data);
+        const key = `${year}-${session.toLowerCase()}-${variant}`;
+        setPdfUrl(data[key]);
+        console.log("PDF lookup key:", key);
+        console.log("PDF URL:", data[key]);
+      })
+      .catch((err) => console.error("Failed to load PDF links:", err));
+  }, [year, session, variant]);
+
   const handleAnswerChange = (questionNumber, answer) => {
     setUserAnswers({ ...userAnswers, [questionNumber]: answer });
   };
@@ -55,88 +70,99 @@ const MCQPractice = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-teal-50 to-teal-70 text-gray-900 px-6 py-20">
-    {/* Header */}
-    <motion.h1 
-      className="text-4xl font-extrabold text-center mb-6 text-gray-800"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      Chemistry {year} {session} {variant}
-    </motion.h1>
-    <p className="text-lg text-gray-700 mb-8 text-center">
-      Select an answer for each question and test your knowledge.
-    </p>
-
-    <div className="w-full max-w-4xl space-y-6">
-      {Array.from({ length: 40 }, (_, i) => i + 1).map((questionNumber) => (
-        <motion.div
-          key={questionNumber}
-          className="p-5 bg-white rounded-2xl shadow-sm hover:shadow-md"
-          whileHover={{ scale: 1.02 }}
-        >
-          {/* Question Number */}
-          <h2 className="text-xl font-semibold mb-3 text-gray-800">
-            Question {questionNumber}
-          </h2>
-
-          {/* MCQ Options */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {["A", "B", "C", "D"].map((option) => (
-              <motion.button
-                key={option}
-                className={`py-3 px-4 rounded-lg text-lg font-medium transition-all duration-50 ${
-                  userAnswers[questionNumber] === option
-                    ? "bg-teal-500 text-white shadow-lg scale-105"
-                    : "bg-gray-200 text-gray-800 hover:bg-teal-200"
-                }`}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleAnswerChange(questionNumber, option)}
-              >
-                {option}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Correct Answer Feedback */}
-          {graded && (
-            <p
-              className={`mt-3 text-lg font-semibold ${
-                userAnswers[questionNumber] === correctAnswers[questionNumber]
-                  ? "text-green-600"
-                  : "text-red-600"
-              }`}
-            >
-              {userAnswers[questionNumber] === correctAnswers[questionNumber]
-                ? "✅ Correct!"
-                : `❌ Correct Answer: ${correctAnswers[questionNumber]}`}
-            </p>
-          )}
-        </motion.div>
-      ))}
-
-      {/* Grade Answers Button */}
-      <motion.button
-        className="mt-6 w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
-        whileHover={{ scale: 1.05 }}
-        onClick={gradeAnswers}
+      {/* Header */}
+      <motion.h1
+        className="text-4xl font-extrabold text-center mb-6 text-gray-800"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        Grade Answers
-      </motion.button>
+        Chemistry {year} {session} {variant}
+      </motion.h1>
+      <p className="text-lg text-gray-700 mb-8 text-center">
+        Select an answer for each question and test your knowledge.
+      </p>
 
-      {/* Score Display */}
-      {graded && (
-        <motion.div 
-          className="mt-6 text-2xl font-semibold text-center text-teal-600"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+      {pdfUrl && (
+        <a
+          href={pdfUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-6 inline-block px-6 py-3 bg-teal-600 text-white rounded-xl shadow-md hover:bg-teal-700 transition duration-300"
         >
-          🎯 Your Score: {score} / 40
-        </motion.div>
+          View Original Question Paper PDF
+        </a>
       )}
+
+      <div className="w-full max-w-4xl space-y-6">
+        {Array.from({ length: 40 }, (_, i) => i + 1).map((questionNumber) => (
+          <motion.div
+            key={questionNumber}
+            className="p-5 bg-white rounded-2xl shadow-sm hover:shadow-md"
+            whileHover={{ scale: 1.02 }}
+          >
+            {/* Question Number */}
+            <h2 className="text-xl font-semibold mb-3 text-gray-800">
+              Question {questionNumber}
+            </h2>
+
+            {/* MCQ Options */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {["A", "B", "C", "D"].map((option) => (
+                <motion.button
+                  key={option}
+                  className={`py-3 px-4 rounded-lg text-lg font-medium transition-all duration-50 ${
+                    userAnswers[questionNumber] === option
+                      ? "bg-teal-500 text-white shadow-lg scale-105"
+                      : "bg-gray-200 text-gray-800 hover:bg-teal-200"
+                  }`}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => handleAnswerChange(questionNumber, option)}
+                >
+                  {option}
+                </motion.button>
+              ))}
+            </div>
+
+            {/* Correct Answer Feedback */}
+            {graded && (
+              <p
+                className={`mt-3 text-lg font-semibold ${
+                  userAnswers[questionNumber] === correctAnswers[questionNumber]
+                    ? "text-green-600"
+                    : "text-red-600"
+                }`}
+              >
+                {userAnswers[questionNumber] === correctAnswers[questionNumber]
+                  ? "✅ Correct!"
+                  : `❌ Correct Answer: ${correctAnswers[questionNumber]}`}
+              </p>
+            )}
+          </motion.div>
+        ))}
+
+        {/* Grade Answers Button */}
+        <motion.button
+          className="mt-6 w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-teal-500 to-teal-700 text-white rounded-lg shadow-lg hover:scale-105 transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          onClick={gradeAnswers}
+        >
+          Grade Answers
+        </motion.button>
+
+        {/* Score Display */}
+        {graded && (
+          <motion.div
+            className="mt-6 text-2xl font-semibold text-center text-teal-600"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            🎯 Your Score: {score} / 40
+          </motion.div>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 };
 export default MCQPractice;
