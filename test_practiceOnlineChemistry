@@ -1,0 +1,66 @@
+# test_practiceChemistryMCQ.py
+
+import pytest
+import random
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+class TestPracticeChemistryMCQ:
+    def setup_method(self, method):
+        self.driver = webdriver.Chrome()
+        self.driver.maximize_window()
+        self.wait = WebDriverWait(self.driver, 20)
+
+    def teardown_method(self, method):
+        self.driver.quit()
+
+    def test_practice_chemistry_mcq(self):
+        driver = self.driver
+        wait = self.wait
+
+        # Login
+        driver.get("https://sproj-prototype1.vercel.app/")
+        driver.find_element(By.LINK_TEXT, "Login").click()
+        driver.find_element(By.NAME, "email").send_keys("saad.khilji@hotmail.com")
+        driver.find_element(By.NAME, "password").send_keys("Saad2003@")
+        driver.find_element(By.CSS_SELECTOR, ".py-3").click()
+
+        # Navigate to Practice Exam
+        wait.until(EC.element_to_be_clickable((By.LINK_TEXT, "Practice Online"))).click()
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'O Level')]"))).click()
+
+        # Select Chemistry subject
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//div[contains(text(),'Chemistry')]"))).click()
+
+        # Select Year
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'2023')]"))).click()
+
+        # Select Session
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Summer')]"))).click()
+
+        # Select Paper Type
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Paper 1')]"))).click()
+
+        # Select Variant
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'11')]"))).click()
+
+        # Wait for MCQs to load
+        wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".question-card")))
+
+        # Select answers randomly or fixed
+        question_cards = driver.find_elements(By.CSS_SELECTOR, ".question-card")
+        for q in question_cards:
+            # Example: pick option A always or random
+            options = q.find_elements(By.CSS_SELECTOR, ".answer-option")
+            if options:
+                choice = random.choice(options)  # or options[0] for always A
+                choice.click()
+
+        # Click Grade Answers
+        wait.until(EC.element_to_be_clickable((By.XPATH, "//button[contains(text(),'Grade Answers')]"))).click()
+
+        # Confirm result shows
+        wait.until(EC.visibility_of_element_located((By.XPATH, "//div[contains(text(),'Your score') or contains(text(),'result')]")))
+
